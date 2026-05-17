@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HipMarvin FX · Weekly Review + Pip Tracker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #0A0A0E; color: #F0EEF8; font-family: 'Syne', sans-serif; }
+.topbar { background: #0D0D14; border-bottom: 1.5px solid #C8A96E; padding: 10px 20px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 6px; }
+.brand { font-family: 'Space Mono', monospace; color: #E8C878; font-size: 13px; font-weight: 700; letter-spacing: 0.08em; }
+.topbar-center { font-size: 11px; color: #6A6882; font-family: 'Space Mono', monospace; letter-spacing: 0.05em; }
+.topbar-right { display: flex; gap: 8px; }
+.badge { font-size: 10px; font-family: 'Space Mono', monospace; padding: 3px 10px; border-radius: 20px; font-weight: 700; letter-spacing: 0.06em; }
+.badge-green { background: #0F3D28; color: #3AAA77; }
+.badge-red { background: #3D0A14; color: #E84060; }
+.badge-amber { background: #3D2A0A; color: #D4883A; }
+.strip { background: #0D0D14; border-bottom: 0.5px solid #252535; display: flex; justify-content: space-around; padding: 10px 20px; flex-wrap: wrap; gap: 6px; }
+.strip-item { text-align: center; }
+.strip-label { font-size: 10px; color: #6A6882; font-family: 'Space Mono', monospace; letter-spacing: 0.08em; display: block; }
+.strip-val { font-size: 13px; font-family: 'Space Mono', monospace; font-weight: 700; color: #E8C878; display: block; margin-top: 2px; }
+.strip-val.green { color: #3AAA77; }
+.strip-val.red { color: #E84060; }
+.body { padding: 16px 20px; max-width: 960px; margin: 0 auto; }
+.section-title { font-size: 11px; color: #C8A96E; font-family: 'Space Mono', monospace; letter-spacing: 0.1em; margin: 18px 0 10px; border-left: 2.5px solid #C8A96E; padding-left: 10px; }
+
+/* SCORECARD */
+.scorecard { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 16px; }
+@media (max-width: 600px) { .scorecard { grid-template-columns: repeat(2, 1fr); } .pip-grid { grid-template-columns: 1fr; } .verdict-row { flex-direction: column; } }
+.score-card { background: #17171F; border: 1px solid #2A2A40; border-radius: 4px; padding: 12px 14px; text-align: center; }
+.score-card.green-border { border-top: 2px solid #3AAA77; }
+.score-card.red-border { border-top: 2px solid #E84060; }
+.score-card.gold-border { border-top: 2px solid #C8A96E; }
+.score-card.purple-border { border-top: 2px solid #7A55C8; }
+.score-card-label { font-size: 9px; color: #6A6882; font-family: 'Space Mono', monospace; letter-spacing: 0.08em; display: block; margin-bottom: 6px; }
+.score-card-val { font-family: 'Space Mono', monospace; font-size: 22px; font-weight: 700; display: block; }
+.score-card-val.green { color: #3AAA77; }
+.score-card-val.red { color: #E84060; }
+.score-card-val.gold { color: #E8C878; }
+.score-card-val.purple { color: #7A55C8; }
+.score-card-sub { font-size: 10px; color: #6A6882; display: block; margin-top: 3px; }
+
+/* PIP TABLE */
+.pip-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.pip-card { background: #17171F; border: 1px solid #2A2A40; border-radius: 4px; padding: 12px 14px; }
+.pip-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+.pip-pair { font-family: 'Space Mono', monospace; font-size: 13px; color: #E8C878; font-weight: 700; }
+.pip-result { font-family: 'Space Mono', monospace; font-size: 13px; font-weight: 700; }
+.pip-result.win { color: #3AAA77; }
+.pip-result.loss { color: #E84060; }
+.pip-result.flat { color: #6A6882; }
+.divider { border: none; border-top: 0.5px solid #252535; margin: 8px 0; }
+.pip-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; font-size: 11px; }
+.pip-row-label { color: #6A6882; font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: 0.06em; }
+.pip-row-val { font-family: 'Space Mono', monospace; font-size: 11px; color: #F0EEF8; }
+.pip-bar-wrap { background: #0D0D14; border-radius: 2px; height: 4px; margin: 4px 0 8px; overflow: hidden; }
+.pip-bar-inner { height: 4px; border-radius: 2px; }
+.pip-bar-inner.win { background: #3AAA77; }
+.pip-bar-inner.loss { background: #E84060; }
+.pip-bar-inner.partial { background: #D4883A; }
+.outcome-badge { font-size: 9px; font-family: 'Space Mono', monospace; padding: 2px 8px; border-radius: 20px; }
+.outcome-badge.win { background: #0F3D28; color: #3AAA77; }
+.outcome-badge.loss { background: #3D0A14; color: #E84060; }
+.outcome-badge.partial { background: #3D2A0A; color: #D4883A; }
+.outcome-badge.flat { background: #1A1A28; color: #6A6882; }
+.pip-note { font-size: 10px; color: #6A6882; line-height: 1.4; margin-top: 4px; }
+
+/* EVENTS REVIEW TABLE */
+.review-table { width: 100%; border-collapse: collapse; font-size: 11px; }
+.review-table th { font-family: 'Space Mono', monospace; font-size: 9px; color: #6A6882; letter-spacing: 0.08em; text-align: left; padding: 5px 8px; border-bottom: 0.5px solid #252535; }
+.review-table td { padding: 7px 8px; border-bottom: 0.5px solid #1A1A28; color: #B0AEBF; vertical-align: top; }
+.review-table td:first-child { font-family: 'Space Mono', monospace; color: #E8C878; font-size: 10px; white-space: nowrap; }
+
+/* TABS */
+.tab-row { display: flex; gap: 0; border-bottom: 1px solid #252535; margin-bottom: 14px; flex-wrap: wrap; }
+.tab { font-size: 10px; font-family: 'Space Mono', monospace; letter-spacing: 0.05em; padding: 7px 12px; cursor: pointer; color: #6A6882; border: none; border-bottom: 2px solid transparent; background: none; transition: all 0.15s; }
+.tab.active { color: #C8A96E; border-bottom-color: #C8A96E; }
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+/* VERDICT */
+.verdict-row { display: flex; gap: 10px; margin: 10px 0; flex-wrap: wrap; }
+.verdict-card { flex: 1; min-width: 150px; background: #17171F; border-radius: 4px; padding: 10px 12px; }
+.verdict-card.bull { border-left: 2.5px solid #3AAA77; }
+.verdict-card.bear { border-left: 2.5px solid #E84060; }
+.verdict-card.neutral { border-left: 2.5px solid #C8A96E; }
+.verdict-label { font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: 0.08em; margin-bottom: 4px; }
+.verdict-card.bull .verdict-label { color: #3AAA77; }
+.verdict-card.bear .verdict-label { color: #E84060; }
+.verdict-card.neutral .verdict-label { color: #C8A96E; }
+.verdict-text { font-size: 11px; color: #B0AEBF; line-height: 1.4; }
+.summary-box { background: #0D0D14; border: 1px solid #C8A96E44; border-radius: 4px; padding: 14px 16px; margin: 12px 0; }
+.summary-text { font-size: 12px; color: #B0AEBF; line-height: 1.7; }
+
+/* LESSONS */
+.lesson-item { background: #17171F; border: 1px solid #2A2A40; border-radius: 4px; padding: 10px 14px; margin-bottom: 8px; display: flex; gap: 12px; align-items: flex-start; }
+.lesson-num { font-family: 'Space Mono', monospace; font-size: 20px; color: #C8A96E22; font-weight: 700; min-width: 28px; }
+.lesson-body { flex: 1; }
+.lesson-title { font-family: 'Space Mono', monospace; font-size: 10px; color: #C8A96E; margin-bottom: 4px; letter-spacing: 0.06em; }
+.lesson-text { font-size: 11px; color: #B0AEBF; line-height: 1.5; }
+
+/* PROMPT */
+.prompt-box { background: #0D0D14; border: 1px solid #2A2A40; border-radius: 4px; padding: 14px 16px; margin-top: 12px; }
+.prompt-title { font-family: 'Space Mono', monospace; font-size: 10px; color: #7A55C8; letter-spacing: 0.08em; margin-bottom: 8px; }
+.prompt-text { font-family: 'Space Mono', monospace; font-size: 10px; color: #8A8898; line-height: 1.7; white-space: pre-wrap; }
+.copy-btn { font-family: 'Space Mono', monospace; font-size: 10px; color: #C8A96E; border: 1px solid #C8A96E44; background: none; padding: 6px 14px; border-radius: 3px; cursor: pointer; margin-top: 10px; }
+.copy-btn:hover { background: #C8A96E22; }
+
+.footer { background: #0D0D14; border-top: 1px solid #8A7448; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; margin-top: 20px; flex-wrap: wrap; gap: 6px; }
+.footer-brand { font-family: 'Space Mono', monospace; font-size: 10px; color: #8A7448; }
+.footer-disc { font-size: 10px; color: #6A6882; }
+
+/* PIP TRACKER INTERACTIVE */
+.tracker-wrap { background: #17171F; border: 1px solid #2A2A40; border-radius: 4px; padding: 14px 16px; margin-bottom: 14px; }
+.tracker-title { font-family: 'Space Mono', monospace; font-size: 10px; color: #C8A96E; letter-spacing: 0.08em; margin-bottom: 12px; }
+.tracker-pair-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; flex-wrap: wrap; }
+.tracker-pair-label { font-family: 'Space Mono', monospace; font-size: 11px; color: #E8C878; min-width: 80px; font-weight: 700; }
+.tracker-input { background: #0D0D14; border: 1px solid #2A2A40; border-radius: 3px; color: #F0EEF8; font-family: 'Space Mono', monospace; font-size: 11px; padding: 5px 8px; width: 80px; }
+.tracker-input:focus { outline: none; border-color: #C8A96E44; }
+.tracker-select { background: #0D0D14; border: 1px solid #2A2A40; border-radius: 3px; color: #F0EEF8; font-family: 'Space Mono', monospace; font-size: 11px; padding: 5px 8px; }
+.tracker-result { font-family: 'Space Mono', monospace; font-size: 12px; font-weight: 700; min-width: 70px; text-align: right; }
+.tracker-result.win { color: #3AAA77; }
+.tracker-result.loss { color: #E84060; }
+.tracker-result.flat { color: #6A6882; }
+.total-bar { background: #0D0D14; border: 1px solid #2A2A40; border-radius: 4px; padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+.total-label { font-family: 'Space Mono', monospace; font-size: 10px; color: #6A6882; letter-spacing: 0.08em; }
+.total-pip { font-family: 'Space Mono', monospace; font-size: 22px; font-weight: 700; }
+.total-pip.pos { color: #3AAA77; }
+.total-pip.neg { color: #E84060; }
+.calc-btn { font-family: 'Space Mono', monospace; font-size: 10px; color: #0A0A0E; background: #C8A96E; border: none; padding: 7px 16px; border-radius: 3px; cursor: pointer; font-weight: 700; letter-spacing: 0.06em; }
+.calc-btn:hover { background: #E8C878; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand">HIPMARVIN FX FUNDAMENTALS</div>
+  <div class="topbar-center">WEEKLY REVIEW + PIP TRACKER · W/E 16 MAY 2026</div>
+  <div class="topbar-right">
+    <span class="badge badge-green">+BULLISH WEEK</span>
+    <span class="badge badge-amber">USD DOMINATED</span>
+  </div>
+</div>
+
+<div class="strip">
+  <div class="strip-item"><span class="strip-label">WEEK NET PIPS</span><span class="strip-val green">+374 PIPS</span></div>
+  <div class="strip-item"><span class="strip-label">WINNING SETUPS</span><span class="strip-val green">6 / 9</span></div>
+  <div class="strip-item"><span class="strip-label">DXY W/W</span><span class="strip-val green">+1.4%</span></div>
+  <div class="strip-item"><span class="strip-label">GOLD W/W</span><span class="strip-val red">-1.8%</span></div>
+  <div class="strip-item"><span class="strip-label">ACCURACY</span><span class="strip-val">67%</span></div>
+</div>
+
+<div class="body">
+  <div class="tab-row">
+    <button class="tab active" onclick="showTab('overview',this)">WEEK OVERVIEW</button>
+    <button class="tab" onclick="showTab('pips',this)">PIP REVIEW</button>
+    <button class="tab" onclick="showTab('tracker',this)">PIP TRACKER</button>
+    <button class="tab" onclick="showTab('lessons',this)">LESSONS</button>
+    
+  </div>
+
+  <!-- OVERVIEW -->
+  <div id="tab-overview" class="tab-content active">
+    <div class="scorecard">
+      <div class="score-card green-border">
+        <span class="score-card-label">NET PIPS THIS WEEK</span>
+        <span class="score-card-val green">+374</span>
+        <span class="score-card-sub">from 9 setups</span>
+      </div>
+      <div class="score-card green-border">
+        <span class="score-card-label">WINNING SETUPS</span>
+        <span class="score-card-val green">6</span>
+        <span class="score-card-sub">out of 9 taken</span>
+      </div>
+      <div class="score-card red-border">
+        <span class="score-card-label">LOSING SETUPS</span>
+        <span class="score-card-val red">3</span>
+        <span class="score-card-sub">stopped out clean</span>
+      </div>
+      <div class="score-card gold-border">
+        <span class="score-card-label">OUTLOOK ACCURACY</span>
+        <span class="score-card-val gold">67%</span>
+        <span class="score-card-sub">6 of 9 called right</span>
+      </div>
+    </div>
+
+    <div class="section-title">■ WHAT DROVE THE WEEK</div>
+    <div class="summary-box">
+      <p class="summary-text">The week of 12–16 May 2026 was the most macro-dense week of Q2. Four red folder events landed — US CPI (Monday), US PPI (Wednesday), Trump-Xi Summit Day 1 (Thursday), and Summit Day 2 + Warsh's first words as Fed Chair (Friday). The week's verdict: the USD won. DXY gained +1.4% across 4 straight sessions. USDJPY tagged 157.50, threatening the BOJ's intervention zone. EURUSD broke the 200-DMA and confirmed a medium-term bearish structure. The one surprise: AUD outperformed — the China risk-on proxy bid from the summit results was the best single trade of the week. Gold held its war floor at $4,700 despite heavy rate pressure. The consumer is beginning to crack (Retail Sales miss) but the Fed cannot act yet. Warsh arrives — and markets are watching every word.</p>
+    </div>
+
+    <div class="section-title">■ EVENT-BY-EVENT REVIEW</div>
+    <table class="review-table">
+      <thead>
+        <tr><th>DATE</th><th>EVENT</th><th>ACTUAL vs EXPECTED</th><th>HIPMARVIN FX OUTLOOK CALLED</th><th>RESULT</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>MON 12 MAY</td>
+          <td>US CPI April</td>
+          <td>3.7% vs 3.7% forecast (core slight beat)</td>
+          <td>Hot CPI = USD rallies, USDJPY spikes, EURUSD drops</td>
+          <td style="color:#3AAA77">✓ CORRECT — USDJPY +80 pips in 15 mins</td>
+        </tr>
+        <tr>
+          <td>WED 14 MAY</td>
+          <td>US PPI April</td>
+          <td>+0.4% vs +0.5% forecast (slight miss)</td>
+          <td>In-line / hot = USD holds, Gold stays pressured</td>
+          <td style="color:#D4883A">PARTIAL — USD held but Gold bounced slightly on miss</td>
+        </tr>
+        <tr>
+          <td>THU 14 MAY</td>
+          <td>Trump-Xi Summit Day 1</td>
+          <td>Positive — 'strategic stability' framework + Hormuz agreement</td>
+          <td>Positive tone = AUD outperforms, USD consolidates</td>
+          <td style="color:#3AAA77">✓ CORRECT — AUD best G10 performer</td>
+        </tr>
+        <tr>
+          <td>THU 14 MAY</td>
+          <td>US Retail Sales April</td>
+          <td>+0.5% vs +0.6% forecast (slight miss)</td>
+          <td>Miss = consumer crack; slight USD dip on data</td>
+          <td style="color:#3AAA77">✓ CORRECT — Fed hike probability dipped to 35%</td>
+        </tr>
+        <tr>
+          <td>FRI 15 MAY</td>
+          <td>Warsh First Words as Fed Chair</td>
+          <td>Cautiously hawkish — 'inflation remains the priority'</td>
+          <td>Hawkish Warsh = USD holds, USDJPY holds above 157</td>
+          <td style="color:#3AAA77">✓ CORRECT — DXY closed at 98.49</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- PIP REVIEW -->
+  <div id="tab-pips" class="tab-content">
+    <div class="section-title">■ PAIR-BY-PAIR PIP REVIEW — W/E 16 MAY 2026</div>
+    <div class="pip-grid">
+
+      <div class="pip-card">
+        <div class="pip-card-header"><span class="pip-pair">USD / JPY</span><span class="pip-result win">+148 pips</span></div>
+        <span class="outcome-badge win">✓ WIN</span>
+        <hr class="divider">
+        <div class="pip-row"><span class="pip-row-label">ENTRY (MON OPEN)</span><span class="pip-row-val">155.82</span></div>
+        <div class="pip-row"><span class="pip-row-label">WEEKLY OUTLOOK TARGET</span><span class="pip-row-val">157.50</span></div>
+        <div class="pip-row"><span class="pip-row-label">ACTUAL HIGH</span><span class="pip-row-val">157.52</span></div>
+        <div class="pip-row"><span class="pip-row-label">EXIT (THUR CLOSE)</span><span class="pip-row-val">157.30</span></div>
+        <div class="pip-bar-wrap"><div class="pip-bar-inner win" style="width:92%"></div></div>
+        <div class="pip-note">CPI spike Monday gave clean entry. Exited before 158 BOJ intervention zone. Perfect structure trade. Did not hold into Friday gap risk.</div>
+      </div>
+
+      <div class="pip-card">
+        <div class="pip-card-header"><span class="pip-pair">EUR / USD</span><span class="pip-result win">+112 pips</span></div>
+        <span class="outcome-badge win">✓ WIN</span>
+        <hr class="divider">
+        <div class="pip-row"><span class="pip-row-label">ENTRY (MON CPI)</span><span class="pip-row-val">1.1792</span></div>
+        <div class="pip-row"><span class="pip-row-label">WEEKLY OUTLOOK TARGET</span><span class="pip-row-val">1.1650</span></div>
+        <div class="pip-row"><span class="pip-row-label">ACTUAL LOW</span><span class="pip-row-val">1.1671</span></div>
+        <div class="pip-row"><span class="pip-row-label">EXIT (WED CLOSE)</span><span class="pip-row-val">1.1680</span></div>
+        <div class="pip-bar-wrap"><div class="pip-bar-inner win" style="width:85%"></div></div>
+        <div class="pip-note">Short triggered on CPI data. 200-DMA break confirmed bearish bias. Closed partial at 1.1700, rest at 1.1680. Held through PPI as expected.</div>
+      </div>
+
+      <div class="pip-card">
+        <div class="pip-card-header"><span class="pip-pair">AUD / USD</span><span class="pip-result win">+68 pips</span></div>
+        <span class="outcome-badge win">✓ WIN</span>
+        <hr class="divider">
+        <div class="pip-row"><span class="pip-row-label">ENTRY (THU SUMMIT)</span><span class="pip-row-val">0.6388</span></div>
+        <div class="pip-row"><span class="pip-row-label">WEEKLY OUTLOOK TARGET</span><span class="pip-row-val">0.6460</span></div>
+        <div class="pip-row"><span class="pip-row-label">ACTUAL HIGH</span><span class="pip-row-val">0.6458</span></div>
+        <div class="pip-row"><span class="pip-row-label">EXIT (FRI OPEN)</span><span class="pip-row-val">0.6456</span></div>
+        <div class="pip-bar-wrap"><div class="pip-bar-inner win" style="width:97%"></div></div>
+        <div class="pip-note">Best trade of the week. Entered on Hormuz agreement headline. China risk-on proxy played out perfectly. Closed Friday morning before weekend gap risk.</div>
+      </div>
+
+      <div class="pip-card">
+        <div class="pip-card-header"><span class="pip-pair">GBP / USD</span><span class="pip-result loss">-46 pips</span></div>
+        <span class="outcome-badge loss">✗ LOSS</span>
+        <hr class="divider">
+        <div class="pip-row"><span class="pip-row-label">ENTRY (TUE RETRACE)</span><span class="pip-row-val">1.3501</span></div>
+        <div class="pip-row"><span class="pip-row-label">WEEKLY OUTLOOK TARGET</span><span class="pip-row-val">1.3380</span></div>
+        <div class="pip-row"><span class="pip-row-label">STOP HIT</span><span class="pip-row-val">1.3547</span></div>
+        <div class="pip-row"><span class="pip-row-val" style="color:#E84060">STOPPED OUT</span></div>
+        <div class="pip-bar-wrap"><div class="pip-bar-inner loss" style="width:35%"></div></div>
+        <div class="pip-note">UK GDP beat Tuesday gave GBP an independent lift that stopped us out. The bias was correct (eventual close 1.3480) but entry was early. Wait for confirmation next time.</div>
+      </div>
+
+      <div class="pip-card">
+        <div class="pip-card-header"><span class="pip-pair">XAU / USD</span><span class="pip-result loss">-52 pips</span></div>
+        <span class="outcome-badge partial">PARTIAL</span>
+        <hr class="divider">
+        <div class="pip-row"><span class="pip-row-label">ENTRY (LONG DIPS)</span><span class="pip-row-val">$4,698</span></div>
+        <div class="pip-row"><span class="pip-row-label">WEEKLY OUTLOOK TARGET</span><span class="pip-row-val">$4,820</span></div>
+        <div class="pip-row"><span class="pip-row-label">ACTUAL HIGH</span><span class="pip-row-val">$4,738</span></div>
+        <div class="pip-row"><span class="pip-row-label">EXIT (PARTIAL)</span><span class="pip-row-val">$4,650 stop</span></div>
+        <div class="pip-bar-wrap"><div class="pip-bar-inner partial" style="width:30%"></div></div>
+        <div class="pip-note">War floor held but rate pressure was heavier than expected. One position hit the $4,650 stop. The other caught the $4,738 bounce. Net result slightly negative. War floor thesis still intact.</div>
+      </div>
+
+      <div class="pip-card">
+        <div class="pip-card-header"><span class="pip-pair">DXY</span><span class="pip-result win">+144 pips equiv.</span></div>
+        <span class="outcome-badge win">✓ WIN</span>
+        <hr class="divider">
+        <div class="pip-row"><span class="pip-row-label">LEVEL MONDAY OPEN</span><span class="pip-row-val">97.10</span></div>
+        <div class="pip-row"><span class="pip-row-label">WEEKLY OUTLOOK TARGET</span><span class="pip-row-val">98.50</span></div>
+        <div class="pip-row"><span class="pip-row-label">ACTUAL CLOSE</span><span class="pip-row-val">98.49</span></div>
+        <div class="pip-row"><span class="pip-row-label">WEEKLY MOVE</span><span class="pip-row-val" style="color:#3AAA77">+139 pts (+1.43%)</span></div>
+        <div class="pip-bar-wrap"><div class="pip-bar-inner win" style="width:99%"></div></div>
+        <div class="pip-note">The week's master theme played out almost exactly as outlined in the Monday Weekly Outlook. DXY +1.4% in a straight line. Structural USD bull remains fully intact heading into next week.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- PIP TRACKER (INTERACTIVE) -->
+  <div id="tab-tracker" class="tab-content">
+    <div class="section-title">■ INTERACTIVE PIP TRACKER — ENTER YOUR SETUPS</div>
+    <p style="font-size:11px;color:#6A6882;margin-bottom:12px;font-family:'Space Mono',monospace;">Enter your entry and exit prices for each pair. Select WIN, LOSS, or FLAT. Click CALCULATE to see your week's total pip count.</p>
+
+    <div class="tracker-wrap">
+      <div class="tracker-title">■ SETUP ENTRY — WEEK OF: <input id="weekDate" type="text" value="12–16 May 2026" style="background:#0D0D14;border:1px solid #2A2A40;border-radius:3px;color:#E8C878;font-family:'Space Mono',monospace;font-size:10px;padding:3px 8px;width:140px;"></div>
+
+      <div id="trackerRows">
+        <!-- Row template rendered by JS -->
+      </div>
+
+      <button class="calc-btn" onclick="calcPips()" style="margin-top:8px;">CALCULATE TOTAL PIPS</button>
+    </div>
+
+    <div class="total-bar" id="totalBar" style="display:none">
+      <div>
+        <div class="total-label">TOTAL NET PIPS THIS WEEK</div>
+        <div id="totalPipDisplay" class="total-pip pos">+0</div>
+      </div>
+      <div style="text-align:right">
+        <div class="total-label">WIN RATE</div>
+        <div id="winRateDisplay" style="font-family:'Space Mono',monospace;font-size:16px;color:#E8C878;font-weight:700;">0%</div>
+      </div>
+      <div style="text-align:right">
+        <div class="total-label">SETUPS TAKEN</div>
+        <div id="setupsDisplay" style="font-family:'Space Mono',monospace;font-size:16px;color:#E8C878;font-weight:700;">0</div>
+      </div>
+    </div>
+
+    <div id="pipBreakdown" style="margin-top:10px;"></div>
+  </div>
+
+  <!-- LESSONS -->
+  <div id="tab-lessons" class="tab-content">
+    <div class="section-title">■ THIS WEEK'S LESSONS — WHAT THE MARKET TAUGHT US</div>
+
+    <div class="lesson-item">
+      <div class="lesson-num">01</div>
+      <div class="lesson-body">
+        <div class="lesson-title">NEVER FIGHT A RED FOLDER TREND ON THE SAME DAY</div>
+        <div class="lesson-text">CPI came in hot on Monday. Anyone trying to buy EURUSD or sell USDJPY on Monday got steamrolled. The market created a clear directional narrative at 8:30 AM ET — and that narrative dominated all day. The lesson: when a red folder event confirms a direction in the first 15 minutes, that direction is your bias for the session. Work with it, not against it.</div>
+      </div>
+    </div>
+
+    <div class="lesson-item">
+      <div class="lesson-num">02</div>
+      <div class="lesson-body">
+        <div class="lesson-title">INTERVENTION RISK IS A HARD STOP — NOT A CONSIDERATION</div>
+        <div class="lesson-text">USDJPY at 157.50 threatened the BOJ's 158 intervention zone all week. Traders who sized up long above 157 made money — but were carrying massive tail risk. Japan has spent ¥10+ trillion defending the Yen. The rule for next time: take profits before 158.00 on USDJPY longs. Never hold large positions in a pair with active central bank intervention risk.</div>
+      </div>
+    </div>
+
+    <div class="lesson-item">
+      <div class="lesson-num">03</div>
+      <div class="lesson-body">
+        <div class="lesson-title">THE BEST TRADE CAME FROM THE SECONDARY CATALYST</div>
+        <div class="lesson-text">AUD/USD was the week's best performer. It wasn't the primary event (CPI) — it was the Trump-Xi summit. The Hormuz agreement headline gave AUD an independent catalyst that had nothing to do with US inflation. The lesson: in any week with multiple catalysts, look for the pair that will benefit most from the secondary event. Often, that's where the best risk-reward lives.</div>
+      </div>
+    </div>
+
+    <div class="lesson-item">
+      <div class="lesson-num">04</div>
+      <div class="lesson-body">
+        <div class="lesson-title">REDUCE SIZE INTO THE WEEKEND — EVERY WEEK</div>
+        <div class="lesson-text">Iran's ceasefire status could flip any day. The Trump-Xi summit produced surprises mid-week. Had either gone differently over a weekend, pairs would have gapped 200+ pips at Monday open. The rule is not new — but this week proved it: take profits or reduce size on all open positions by Friday close. Overnight geopolitical risk is non-negotiable to manage.</div>
+      </div>
+    </div>
+
+    <div class="lesson-item">
+      <div class="lesson-num">05</div>
+      <div class="lesson-body">
+        <div class="lesson-title">EARLY ENTRIES COST — WAIT FOR CONFIRMATION</div>
+        <div class="lesson-text">The GBP/USD short was the right call — but the entry was one day early. UK GDP beat on Tuesday gave GBP an independent lift that hit the stop before the eventual move lower played out. If we had waited for Tuesday's close to confirm the bearish structure, the trade would have been a winner. Patience and confirmation beats early entries every single time.</div>
+      </div>
+    </div>
+
+    <div style="margin-top:16px;background:#0D0D14;border:1px solid #C8A96E44;border-radius:4px;padding:14px 16px;">
+      <div style="font-family:'Space Mono',monospace;font-size:10px;color:#C8A96E;letter-spacing:0.08em;margin-bottom:8px;">■ WEEK IN ONE SENTENCE</div>
+      <p style="font-size:13px;color:#F0EEF8;line-height:1.6;font-weight:600;">"Hot inflation + a cautiously positive summit + a hawkish Fed Chair arrival = one of the cleanest USD bull weeks of 2026. The trade was simple. The execution is what separated the winners."</p>
+      <p style="font-size:10px;color:#6A6882;margin-top:6px;font-family:'Space Mono',monospace;">— Elijah Agom, HipMarvin FX</p>
+    </div>
+
+    <div style="margin-top:12px;text-align:center;font-family:'Space Mono',monospace;font-size:11px;color:#C8A96E;letter-spacing:0.06em;">Weekly review drops every Friday evening. Stay locked in. 🔐</div>
+  </div>
+
+  
+
+</div>
+
+<div style="text-align:center;padding:12px 20px;background:#12101C;border-top:1px solid #7A55C833;font-family:'Space Mono',monospace;font-size:10px;color:#7A55C8;letter-spacing:0.06em;">🔐 PROMPT TEMPLATES &amp; FULL ANALYST TOOLKIT — HIPMARVIN FX FUNDAMENTALS SUBSCRIBERS ONLY · Upgrade at hipmarvin.com</div>
+<div class="footer">
+  <div class="footer-brand">HIPMARVIN FX FUNDAMENTALS · ANALYST: ELIJAH AGOM · W/E 16 MAY 2026</div>
+  <div class="footer-disc">Educational purposes only. Not financial advice. © 2026</div>
+</div>
+
+<script>
+const PAIRS = ['EUR/USD','GBP/USD','USD/JPY','AUD/USD','XAU/USD','USD/CHF','USD/CAD','NZD/USD','BTC/USD'];
+
+function buildTracker() {
+  const wrap = document.getElementById('trackerRows');
+  wrap.innerHTML = '';
+  PAIRS.forEach((pair, i) => {
+    wrap.innerHTML += `
+      <div class="tracker-pair-row">
+        <div class="tracker-pair-label">${pair}</div>
+        <input class="tracker-input" id="entry_${i}" placeholder="Entry" type="number" step="0.0001">
+        <input class="tracker-input" id="exit_${i}" placeholder="Exit" type="number" step="0.0001">
+        <select class="tracker-select" id="dir_${i}">
+          <option value="long">LONG</option>
+          <option value="short">SHORT</option>
+        </select>
+        <select class="tracker-select" id="outcome_${i}">
+          <option value="win">WIN</option>
+          <option value="loss">LOSS</option>
+          <option value="flat">FLAT</option>
+        </select>
+        <div class="tracker-result flat" id="result_${i}">—</div>
+      </div>`;
+  });
+}
+
+function getPipMultiplier(pair) {
+  if (pair === 'XAU/USD') return 1;
+  if (pair === 'BTC/USD') return 1;
+  if (pair.includes('JPY')) return 100;
+  return 10000;
+}
+
+function calcPips() {
+  let total = 0;
+  let wins = 0;
+  let taken = 0;
+  let breakdown = '';
+
+  PAIRS.forEach((pair, i) => {
+    const entry = parseFloat(document.getElementById('entry_' + i).value);
+    const exit = parseFloat(document.getElementById('exit_' + i).value);
+    const dir = document.getElementById('dir_' + i).value;
+    const outcome = document.getElementById('outcome_' + i).value;
+    const resultEl = document.getElementById('result_' + i);
+
+    if (!entry || !exit) { resultEl.textContent = '—'; resultEl.className = 'tracker-result flat'; return; }
+
+    taken++;
+    const mult = getPipMultiplier(pair);
+    let rawPips = (exit - entry) * mult;
+    if (dir === 'short') rawPips = -rawPips;
+
+    const pips = Math.round(rawPips);
+    total += pips;
+
+    if (outcome === 'win') { wins++; resultEl.className = 'tracker-result win'; resultEl.textContent = '+' + Math.abs(pips) + ' pips'; }
+    else if (outcome === 'loss') { resultEl.className = 'tracker-result loss'; resultEl.textContent = '-' + Math.abs(pips) + ' pips'; }
+    else { resultEl.className = 'tracker-result flat'; resultEl.textContent = '~0 pips'; }
+
+    breakdown += `<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:0.5px solid #1A1A28;font-family:'Space Mono',monospace;font-size:11px;">
+      <span style="color:#6A6882">${pair}</span>
+      <span style="color:${pips >= 0 ? '#3AAA77' : '#E84060'}">${pips >= 0 ? '+' : ''}${pips} pips</span>
+    </div>`;
+  });
+
+  const totalEl = document.getElementById('totalPipDisplay');
+  totalEl.textContent = (total >= 0 ? '+' : '') + total;
+  totalEl.className = 'total-pip ' + (total >= 0 ? 'pos' : 'neg');
+  document.getElementById('winRateDisplay').textContent = taken > 0 ? Math.round((wins / taken) * 100) + '%' : '0%';
+  document.getElementById('setupsDisplay').textContent = taken;
+  document.getElementById('totalBar').style.display = 'flex';
+  document.getElementById('pipBreakdown').innerHTML = `<div style="background:#17171F;border:1px solid #2A2A40;border-radius:4px;padding:12px 14px;">${breakdown}</div>`;
+}
+
+function showTab(id, btn) {
+  document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+
+function copyReviewPrompt() {
+  const text = document.getElementById('reviewPrompt').innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.querySelector('.copy-btn');
+    btn.textContent = 'COPIED ✓';
+    setTimeout(() => btn.textContent = 'COPY PROMPT', 2000);
+  });
+}
+
+buildTracker();
+</script>
+</body>
+</html>
