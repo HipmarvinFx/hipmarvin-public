@@ -7,152 +7,564 @@
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet"/>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
     :root {
-      --cream: #F5F0E8; --ink: #1A1410; --ink2: #2C2418;
-      --gold: #B8860B; --gold2: #D4A017; --muted: #7A6E5F;
-      --border: rgba(184,134,11,0.2); --green: #2A7A4B;
+      --cream: #F5F0E8;
+      --ink: #1A1410;
+      --ink2: #2C2418;
+      --gold: #B8860B;
+      --gold2: #D4A017;
+      --muted: #7A6E5F;
+      --border: rgba(184,134,11,0.2);
+      --green: #2A7A4B;
+      --green-light: #3DAB6A;
     }
+
     html { scroll-behavior: smooth; }
-    body { background: var(--cream); color: var(--ink); font-family: 'Montserrat', sans-serif; min-height: 100vh; overflow-x: hidden; cursor: none; }
-    .cursor { width: 8px; height: 8px; background: var(--gold); border-radius: 50%; position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9999; transition: transform 0.15s ease; }
-    .cursor-ring { width: 32px; height: 32px; border: 1px solid var(--gold); border-radius: 50%; position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9998; transition: all 0.12s ease; opacity: 0.5; }
-    body::before { content: ''; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E"); pointer-events: none; z-index: 1; opacity: 0.4; }
-    .page { position: relative; z-index: 2; min-height: 100vh; display: grid; grid-template-rows: auto 1fr auto; }
-    .topbar { display: flex; justify-content: space-between; align-items: center; padding: 24px 40px; border-bottom: 1px solid var(--border); }
-    .topbar-left { font-size: 10px; letter-spacing: 4px; text-transform: uppercase; color: var(--muted); font-weight: 500; }
-    .access-badge { font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: var(--green); font-weight: 600; border: 1px solid rgba(42,122,75,0.3); padding: 4px 10px; border-radius: 2px; }
-    .main { padding: 60px 40px 40px; max-width: 600px; margin: 0 auto; width: 100%; }
+
+    body {
+      background: var(--cream);
+      color: var(--ink);
+      font-family: 'Montserrat', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    .cursor {
+      width: 8px; height: 8px;
+      background: var(--gold);
+      border-radius: 50%;
+      position: fixed;
+      pointer-events: none;
+      z-index: 9999;
+      transition: transform 0.15s ease;
+      top: 0; left: 0;
+    }
+
+    .cursor-ring {
+      width: 32px; height: 32px;
+      border: 1px solid var(--gold);
+      border-radius: 50%;
+      position: fixed;
+      pointer-events: none;
+      z-index: 9998;
+      transition: all 0.12s ease;
+      opacity: 0.5;
+      top: 0; left: 0;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0.4;
+    }
+
+    .page {
+      position: relative;
+      z-index: 2;
+      min-height: 100vh;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+    }
+
+    /* ── TOP BAR ── */
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 24px 40px;
+      border-bottom: 1px solid var(--border);
+      animation: slideIn 0.8s ease both;
+    }
+
+    .topbar-left {
+      font-size: 10px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .access-badge {
+      font-size: 9px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--green);
+      font-weight: 600;
+      border: 1px solid rgba(42,122,75,0.3);
+      padding: 4px 10px;
+      border-radius: 2px;
+    }
+
+    /* ── MAIN ── */
+    .main {
+      padding: 60px 40px 40px;
+      max-width: 600px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
     .hero { margin-bottom: 56px; }
-    .eyebrow { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; animation: fadeUp 0.7s 0.1s ease both; }
+
+    .eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+      animation: fadeUp 0.7s 0.1s ease both;
+    }
+
     .eyebrow-line { width: 32px; height: 1px; background: var(--gold); }
-    .eyebrow-text { font-size: 10px; letter-spacing: 4px; text-transform: uppercase; color: var(--gold); font-weight: 600; }
+
+    .eyebrow-text {
+      font-size: 10px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 600;
+    }
+
     .brand { animation: fadeUp 0.7s 0.2s ease both; }
-    .brand-name { font-family: 'Cormorant Garamond', serif; font-size: clamp(64px, 16vw, 96px); font-weight: 300; line-height: 0.85; letter-spacing: -1px; color: var(--ink); }
-    .brand-name em { font-style: italic; color: var(--gold); }
-    .brand-sub { font-family: 'Cormorant Garamond', serif; font-size: clamp(18px, 4vw, 24px); font-weight: 300; letter-spacing: 8px; text-transform: uppercase; color: var(--muted); margin-top: 8px; }
-    .hero-desc { margin-top: 28px; font-size: 13px; color: var(--muted); line-height: 1.8; font-weight: 300; max-width: 380px; animation: fadeUp 0.7s 0.3s ease both; }
+
+    .brand-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(64px, 16vw, 96px);
+      font-weight: 300;
+      line-height: 0.85;
+      letter-spacing: -1px;
+      color: var(--ink);
+    }
+
+    .brand-name em {
+      font-style: italic;
+      color: var(--gold);
+    }
+
+    .brand-sub {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(18px, 4vw, 24px);
+      font-weight: 300;
+      letter-spacing: 8px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 8px;
+    }
+
+    .hero-desc {
+      margin-top: 28px;
+      font-size: 13px;
+      color: var(--ink2);
+      line-height: 1.8;
+      font-weight: 400;
+      max-width: 380px;
+      animation: fadeUp 0.7s 0.3s ease both;
+    }
+
     .hero-desc strong { color: var(--ink); font-weight: 500; }
-    .ornament { display: flex; align-items: center; gap: 16px; margin: 40px 0 32px; animation: fadeUp 0.7s 0.35s ease both; }
-    .ornament-line { flex: 1; height: 1px; background: linear-gradient(90deg, var(--gold), transparent); }
-    .ornament-line.right { background: linear-gradient(270deg, var(--gold), transparent); }
-    .ornament-diamond { width: 6px; height: 6px; background: var(--gold); transform: rotate(45deg); flex-shrink: 0; }
-    .section-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 20px; animation: fadeUp 0.7s 0.4s ease both; }
-    .section-title { font-size: 10px; letter-spacing: 4px; text-transform: uppercase; color: var(--muted); font-weight: 500; }
-    .section-count { font-family: 'Cormorant Garamond', serif; font-size: 13px; color: var(--gold); font-style: italic; }
+
+    .ornament {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin: 40px 0 32px;
+      animation: fadeUp 0.7s 0.35s ease both;
+    }
+
+    .ornament-line {
+      flex: 1; height: 1px;
+      background: linear-gradient(90deg, var(--gold), transparent);
+    }
+
+    .ornament-line.right {
+      background: linear-gradient(270deg, var(--gold), transparent);
+    }
+
+    .ornament-diamond {
+      width: 6px; height: 6px;
+      background: var(--gold);
+      transform: rotate(45deg);
+      flex-shrink: 0;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 20px;
+      animation: fadeUp 0.7s 0.4s ease both;
+    }
+
+    .section-title {
+      font-size: 10px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .section-count {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 13px;
+      color: var(--gold);
+      font-style: italic;
+    }
+
+    /* Cards */
     .cards { display: flex; flex-direction: column; gap: 2px; }
-    .card { display: block; text-decoration: none; position: relative; padding: 28px 32px; background: var(--cream); border: 1px solid var(--border); overflow: hidden; transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+
+    .card {
+      display: block;
+      text-decoration: none;
+      position: relative;
+      padding: 28px 32px;
+      background: var(--cream);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
     .card:nth-child(1) { animation: fadeUp 0.6s 0.45s ease both; }
     .card:nth-child(2) { animation: fadeUp 0.6s 0.55s ease both; }
     .card:nth-child(3) { animation: fadeUp 0.6s 0.65s ease both; }
-    .card-bg { position: absolute; inset: 0; background: var(--ink); transform: translateX(-101%); transition: transform 0.5s cubic-bezier(0.76, 0, 0.24, 1); z-index: 0; }
+
+    .card-bg {
+      position: absolute;
+      inset: 0;
+      background: var(--ink);
+      transform: translateX(-101%);
+      transition: transform 0.5s cubic-bezier(0.76, 0, 0.24, 1);
+      z-index: 0;
+    }
+
     .card:hover .card-bg { transform: translateX(0); }
-    .card-inner { position: relative; z-index: 1; display: flex; align-items: center; justify-content: space-between; }
+
+    .card-inner {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
     .card-left { flex: 1; }
-    .card-tag { display: inline-block; font-size: 8px; letter-spacing: 2px; text-transform: uppercase; padding: 3px 8px; border: 1px solid var(--border); color: var(--muted); margin-bottom: 10px; font-weight: 500; transition: all 0.4s; }
-    .card:hover .card-tag { border-color: rgba(212,160,23,0.4); color: var(--gold2); }
-    .card-num { font-family: 'Cormorant Garamond', serif; font-size: 11px; color: var(--gold); letter-spacing: 2px; margin-bottom: 8px; font-style: italic; transition: color 0.4s; }
-    .card-title { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 600; color: var(--ink); letter-spacing: 0.5px; line-height: 1.1; margin-bottom: 6px; transition: color 0.4s; }
-    .card-desc { font-size: 11px; color: var(--muted); font-weight: 300; letter-spacing: 0.5px; transition: color 0.4s; }
+
+    .card-tag {
+      display: inline-block;
+      font-size: 8px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      margin-bottom: 10px;
+      font-weight: 500;
+      transition: all 0.4s;
+    }
+
+    .card:hover .card-tag {
+      border-color: rgba(212,160,23,0.4);
+      color: var(--gold2);
+    }
+
+    .card-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 11px;
+      color: var(--gold);
+      letter-spacing: 2px;
+      margin-bottom: 8px;
+      font-style: italic;
+      transition: color 0.4s;
+    }
+
+    .card-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 26px;
+      font-weight: 600;
+      color: var(--ink);
+      letter-spacing: 0.5px;
+      line-height: 1.1;
+      margin-bottom: 6px;
+      transition: color 0.4s;
+    }
+
+    .card-desc {
+      font-size: 11px;
+      color: var(--ink2);
+      font-weight: 400;
+      letter-spacing: 0.5px;
+      transition: color 0.4s;
+    }
+
     .card:hover .card-title { color: var(--cream); }
     .card:hover .card-desc { color: rgba(245,240,232,0.6); }
     .card:hover .card-num { color: var(--gold2); }
-    .card-arrow { font-family: 'Cormorant Garamond', serif; font-size: 28px; color: var(--border); transition: all 0.4s; flex-shrink: 0; margin-left: 16px; }
-    .card:hover .card-arrow { color: var(--gold2); transform: translateX(6px); }
-    .upgrade { margin-top: 20px; padding: 28px 32px; border: 1px solid rgba(42,122,75,0.2); background: rgba(42,122,75,0.03); position: relative; overflow: hidden; animation: fadeUp 0.6s 0.75s ease both; }
-    .upgrade::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--green); }
-    .upgrade-label { font-size: 9px; letter-spacing: 4px; text-transform: uppercase; color: var(--green); font-weight: 600; margin-bottom: 10px; }
-    .upgrade-title { font-family: 'Cormorant Garamond', serif; font-size: 22px; color: var(--ink); margin-bottom: 8px; font-weight: 400; }
-    .upgrade-title em { font-style: italic; color: var(--gold); }
-    .upgrade-text { font-size: 12px; color: var(--muted); line-height: 1.7; font-weight: 300; }
-    .footer { padding: 32px 40px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; animation: fadeUp 0.7s 0.85s ease both; }
-    .disclaimer { font-size: 10px; color: var(--muted); line-height: 1.7; font-weight: 300; max-width: 420px; }
+
+    .card-arrow {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 28px;
+      color: var(--border);
+      transition: all 0.4s;
+      flex-shrink: 0;
+      margin-left: 16px;
+    }
+
+    .card:hover .card-arrow {
+      color: var(--gold2);
+      transform: translateX(6px);
+    }
+
+    /* Upgrade block */
+    .upgrade {
+      margin-top: 20px;
+      padding: 28px 32px;
+      border: 1px solid rgba(42,122,75,0.2);
+      background: rgba(42,122,75,0.03);
+      position: relative;
+      overflow: hidden;
+      animation: fadeUp 0.6s 0.75s ease both;
+    }
+
+    .upgrade::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 3px;
+      background: var(--green);
+    }
+
+    .upgrade-label {
+      font-size: 9px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--green);
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .upgrade-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px;
+      color: var(--ink);
+      margin-bottom: 8px;
+      font-weight: 400;
+    }
+
+    .upgrade-title em {
+      font-style: italic;
+      color: var(--gold);
+    }
+
+    .upgrade-text {
+      font-size: 12px;
+      color: var(--ink2);
+      line-height: 1.7;
+      font-weight: 400;
+    }
+
+    /* Footer */
+    .footer {
+      padding: 32px 40px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      animation: fadeUp 0.7s 0.85s ease both;
+    }
+
+    .disclaimer {
+      font-size: 10px;
+      color: var(--muted);
+      line-height: 1.7;
+      font-weight: 500;
+      max-width: 420px;
+    }
+
     .disclaimer strong { color: var(--gold); font-weight: 600; }
-    .footer-brand { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-style: italic; color: var(--ink2); opacity: 0.3; white-space: nowrap; }
-    .vert-text { position: fixed; right: 24px; top: 50%; transform: translateY(-50%) rotate(90deg); font-size: 9px; letter-spacing: 4px; text-transform: uppercase; color: var(--muted); opacity: 0.3; font-weight: 500; white-space: nowrap; z-index: 2; }
-    @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
-    @media (max-width: 480px) { .topbar, .main, .footer { padding-left: 24px; padding-right: 24px; } .card { padding: 22px 24px; } .vert-text { display: none; } body { cursor: auto; } .cursor, .cursor-ring { display: none; } }
+
+    .footer-brand {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 18px;
+      font-style: italic;
+      color: var(--ink2);
+      opacity: 0.3;
+      white-space: nowrap;
+    }
+
+    .vert-text {
+      position: fixed;
+      right: 24px;
+      top: 50%;
+      transform: translateY(-50%) rotate(90deg);
+      font-size: 9px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--muted);
+      opacity: 0.3;
+      font-weight: 500;
+      white-space: nowrap;
+      z-index: 2;
+    }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 480px) {
+      .topbar, .main, .footer { padding-left: 24px; padding-right: 24px; }
+      .card { padding: 22px 24px; }
+      .vert-text { display: none; }
+      body { cursor: auto; }
+      .cursor, .cursor-ring { display: none; }
+    }
   </style>
 </head>
 <body>
+
   <div class="cursor" id="cursor"></div>
   <div class="cursor-ring" id="cursorRing"></div>
   <div class="vert-text">Free Access — Public Reports</div>
 
   <div class="page">
+
     <header class="topbar">
       <div class="topbar-left">Hipmarvin FX &nbsp;/&nbsp; Public Reports</div>
       <div class="access-badge">✦ Free Access</div>
     </header>
+
     <main class="main">
+
       <div class="hero">
-        <div class="eyebrow"><div class="eyebrow-line"></div><span class="eyebrow-text">Member Reports</span></div>
+        <div class="eyebrow">
+          <div class="eyebrow-line"></div>
+          <span class="eyebrow-text">Member Reports</span>
+        </div>
+
         <div class="brand">
           <div class="brand-name">Hip<em>Marvin</em></div>
           <div class="brand-sub">FX &nbsp; Fundamentals</div>
         </div>
-        <p class="hero-desc">Your <strong>weekly edge</strong>, delivered with clarity. Institutional thinking, made accessible. Study the market the way it actually moves.</p>
+
+        <p class="hero-desc">
+          Your <strong>weekly edge</strong>, delivered with clarity. Institutional thinking, made accessible. Study the market the way it actually moves.
+        </p>
       </div>
+
       <div class="ornament">
-        <div class="ornament-line"></div><div class="ornament-diamond"></div><div class="ornament-line right"></div>
+        <div class="ornament-line"></div>
+        <div class="ornament-diamond"></div>
+        <div class="ornament-line right"></div>
       </div>
+
       <div class="section-header">
         <span class="section-title">This Week's Reports</span>
         <span class="section-count">03 dispatches</span>
       </div>
+
       <div class="cards">
+
         <a class="card" href="PUBLIC_weekly_outlook.html">
           <div class="card-bg"></div>
           <div class="card-inner">
-            <div class="card-left"><div class="card-tag">Strategic</div><div class="card-num">01 —</div><div class="card-title">Weekly Outlook</div><div class="card-desc">Forward bias, key confluences & market structure</div></div>
+            <div class="card-left">
+              <div class="card-tag">Strategic</div>
+              <div class="card-num">01 —</div>
+              <div class="card-title">Weekly Outlook</div>
+              <div class="card-desc">Forward bias, key confluences & market structure</div>
+            </div>
             <div class="card-arrow">→</div>
           </div>
         </a>
+
         <a class="card" href="PUBLIC_postevent_daily.html">
           <div class="card-bg"></div>
           <div class="card-inner">
-            <div class="card-left"><div class="card-tag">Daily</div><div class="card-num">02 —</div><div class="card-title">Post Event Daily</div><div class="card-desc">Session breakdown & post-event trade analysis</div></div>
+            <div class="card-left">
+              <div class="card-tag">Daily</div>
+              <div class="card-num">02 —</div>
+              <div class="card-title">Post Event Daily</div>
+              <div class="card-desc">Session breakdown & post-event trade analysis</div>
+            </div>
             <div class="card-arrow">→</div>
           </div>
         </a>
+
         <a class="card" href="PUBLIC_weekly_review_pip_tracker.html">
           <div class="card-bg"></div>
           <div class="card-inner">
-            <div class="card-left"><div class="card-tag">Performance</div><div class="card-num">03 —</div><div class="card-title">Weekly Review & Pip Tracker</div><div class="card-desc">Full recap, pip accountability & key takeaways</div></div>
+            <div class="card-left">
+              <div class="card-tag">Performance</div>
+              <div class="card-num">03 —</div>
+              <div class="card-title">Weekly Review & Pip Tracker</div>
+              <div class="card-desc">Full recap, pip accountability & key takeaways</div>
+            </div>
             <div class="card-arrow">→</div>
           </div>
         </a>
+
       </div>
+
+      <!-- Upgrade nudge -->
       <div class="upgrade">
         <div class="upgrade-label">✦ Go Premium</div>
         <div class="upgrade-title">Want the <em>full picture?</em></div>
         <div class="upgrade-text">Premium members get early-access reports, live trade logs, institutional data desk & deeper analysis. Reach out to upgrade your access.</div>
       </div>
+
     </main>
+
     <footer class="footer">
-      <p class="disclaimer"><strong>⚠ Educational Use Only.</strong> All content is for informational purposes only and does not constitute financial advice. For subscribers only — do not redistribute.</p>
+      <p class="disclaimer">
+        <strong>⚠ Educational Use Only.</strong> All content is for informational purposes only and does not constitute financial advice. For subscribers only — do not redistribute.
+      </p>
       <div class="footer-brand">HipMarvin FX</div>
     </footer>
+
   </div>
 
   <script>
     const cursor = document.getElementById('cursor');
-    const ring   = document.getElementById('cursorRing');
+    const ring = document.getElementById('cursorRing');
     let mx = 0, my = 0, rx = 0, ry = 0;
+
     document.addEventListener('mousemove', e => {
       mx = e.clientX; my = e.clientY;
       cursor.style.left = mx - 4 + 'px';
-      cursor.style.top  = my - 4 + 'px';
+      cursor.style.top = my - 4 + 'px';
     });
+
     function animRing() {
-      rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
-      ring.style.left = rx - 16 + 'px'; ring.style.top = ry - 16 + 'px';
+      rx += (mx - rx) * 0.12;
+      ry += (my - ry) * 0.12;
+      ring.style.left = rx - 16 + 'px';
+      ring.style.top = ry - 16 + 'px';
       requestAnimationFrame(animRing);
     }
     animRing();
+
     document.querySelectorAll('.card').forEach(c => {
-      c.addEventListener('mouseenter', () => { cursor.style.transform = 'scale(2)'; ring.style.transform = 'scale(1.5)'; });
-      c.addEventListener('mouseleave', () => { cursor.style.transform = 'scale(1)'; ring.style.transform = 'scale(1)'; });
+      c.addEventListener('mouseenter', () => {
+        cursor.style.transform = 'scale(2)';
+        ring.style.transform = 'scale(1.5)';
+      });
+      c.addEventListener('mouseleave', () => {
+        cursor.style.transform = 'scale(1)';
+        ring.style.transform = 'scale(1)';
+      });
     });
   </script>
+
 </body>
 </html>
