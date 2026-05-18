@@ -1,404 +1,511 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HipMarvin FX · Weekly Outlook</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>HipMarvin FX — Weekly Outlook · Public · W/C 19 May 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <style>
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { background: #0A0A0E; color: #F0EEF8; font-family: 'Syne', sans-serif; min-height: 100vh; }
-.topbar { background: #0D0D14; border-bottom: 1.5px solid #C8A96E; padding: 10px 20px; display: flex; align-items: center; justify-content: space-between; }
-.brand { font-family: 'Space Mono', monospace; color: #E8C878; font-size: 13px; font-weight: 700; letter-spacing: 0.08em; }
-.topbar-center { font-size: 11px; color: #6A6882; font-family: 'Space Mono', monospace; letter-spacing: 0.05em; }
-.topbar-right { display: flex; gap: 8px; }
-.badge { font-size: 10px; font-family: 'Space Mono', monospace; padding: 3px 10px; border-radius: 20px; font-weight: 700; letter-spacing: 0.06em; }
-.badge-nervous { background: #3D0A14; color: #E84060; }
-.badge-cautious { background: #3D2A0A; color: #D4883A; }
-.badge-active { background: #0F3D28; color: #3AAA77; }
-.strip { background: #0D0D14; border-bottom: 0.5px solid #252535; display: flex; justify-content: space-around; padding: 10px 20px; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --cream: #F5F0E8; --cream2: #EDE8DF;
+  --ink: #1A1410; --ink2: #2C2418;
+  --gold: #B8860B; --gold2: #D4A017; --gold3: rgba(184,134,11,0.12);
+  --muted: #7A6E5F; --muted2: #9A8E7F;
+  --border: rgba(184,134,11,0.18); --border2: rgba(26,20,16,0.08);
+  --red: #8B1A1A; --red2: #C0392B;
+  --green: #1A5C3A; --green2: #2ECC71;
+}
+html { scroll-behavior: smooth; }
+body { background: var(--cream); color: var(--ink); font-family: 'Montserrat', sans-serif; min-height: 100vh; overflow-x: hidden; cursor: none; }
+body::before { content: ''; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E"); pointer-events: none; z-index: 1; opacity: 0.4; }
+.cursor { width: 8px; height: 8px; background: var(--gold); border-radius: 50%; position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9999; transition: transform 0.15s ease; }
+.cursor-ring { width: 32px; height: 32px; border: 1px solid var(--gold); border-radius: 50%; position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9998; transition: all 0.12s ease; opacity: 0.5; }
+.page { position: relative; z-index: 2; min-height: 100vh; display: grid; grid-template-rows: auto auto 1fr auto; }
+
+/* TOPBAR */
+.topbar { display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; border-bottom: 1px solid var(--border); flex-wrap: wrap; gap: 10px; }
+.topbar-left { font-size: 10px; letter-spacing: 4px; text-transform: uppercase; color: var(--muted); font-weight: 500; }
+.topbar-right { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+.topbar-date { font-family: 'Cormorant Garamond', serif; font-size: 13px; font-style: italic; color: var(--muted); }
+.badge-green { font-size: 8px; letter-spacing: 3px; text-transform: uppercase; color: var(--green); border: 1px solid rgba(26,92,58,0.3); padding: 4px 10px; font-weight: 600; }
+.badge-cautious { font-size: 8px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); border: 1px solid var(--border); padding: 4px 10px; font-weight: 600; }
+.badge-bear { font-size: 8px; letter-spacing: 3px; text-transform: uppercase; color: var(--red2); border: 1px solid rgba(192,57,43,0.3); padding: 4px 10px; font-weight: 600; }
+
+/* STRIP */
+.strip { display: flex; justify-content: space-around; padding: 12px 40px; border-bottom: 1px solid var(--border2); background: rgba(26,20,16,0.03); flex-wrap: wrap; gap: 12px; }
 .strip-item { text-align: center; }
-.strip-label { font-size: 10px; color: #6A6882; font-family: 'Space Mono', monospace; letter-spacing: 0.08em; display: block; }
-.strip-val { font-size: 13px; font-family: 'Space Mono', monospace; font-weight: 700; color: #E8C878; display: block; margin-top: 2px; }
-.strip-val.red { color: #E84060; }
-.body { padding: 16px 20px; max-width: 900px; margin: 0 auto; }
-.section-title { font-size: 11px; color: #C8A96E; font-family: 'Space Mono', monospace; letter-spacing: 0.1em; margin: 18px 0 10px; border-left: 2.5px solid #C8A96E; padding-left: 10px; }
-.rf-box { background: #160810; border: 1px solid #4A1020; border-radius: 4px; padding: 14px 16px; margin-bottom: 16px; }
-.rf-title { font-size: 13px; color: #E84060; font-family: 'Space Mono', monospace; font-weight: 700; margin-bottom: 6px; letter-spacing: 0.05em; }
-.rf-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
-.rf-scenario { padding: 10px 12px; border-radius: 3px; }
-.rf-scenario.cool { background: #0A1F14; border-left: 2.5px solid #3AAA77; }
-.rf-scenario.hot { background: #1F0A10; border-left: 2.5px solid #E84060; }
-.rf-scenario-label { font-size: 10px; font-family: 'Space Mono', monospace; letter-spacing: 0.08em; margin-bottom: 4px; }
-.rf-scenario.cool .rf-scenario-label { color: #3AAA77; }
-.rf-scenario.hot .rf-scenario-label { color: #E84060; }
-.rf-scenario p { font-size: 11px; color: #B0AEBF; margin: 0; line-height: 1.5; }
-.rf-body { font-size: 12px; color: #B0AEBF; line-height: 1.6; }
-.cards-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-@media (max-width: 600px) { .cards-grid { grid-template-columns: 1fr; } .rf-grid { grid-template-columns: 1fr; } }
-.card { background: #17171F; border: 1px solid #2A2A40; border-radius: 4px; border-left: 2.5px solid #C8A96E; padding: 12px 14px; }
-.card.purple-bar { border-left-color: #7A55C8; }
-.card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
-.card-pair { font-family: 'Space Mono', monospace; font-size: 14px; color: #E8C878; font-weight: 700; }
-.card-current { font-family: 'Space Mono', monospace; font-size: 12px; color: #F0EEF8; margin-right: 6px; }
-.card-fullname { font-size: 10px; color: #6A6882; margin-bottom: 8px; font-family: 'Space Mono', monospace; }
-.divider { border: none; border-top: 0.5px solid #252535; margin: 8px 0; }
-.label { font-size: 9px; color: #D4883A; font-family: 'Space Mono', monospace; letter-spacing: 0.08em; margin-bottom: 3px; display: block; }
-.label.gold { color: #C8A96E; }
-.label.dim { color: #6A6882; }
-.card-trigger { font-size: 11px; color: #B0AEBF; line-height: 1.5; margin-bottom: 8px; }
-.levels { display: flex; justify-content: space-between; background: #0D0D14; border-radius: 3px; padding: 8px 10px; margin: 6px 0; }
-.ceil { font-family: 'Space Mono', monospace; font-size: 12px; color: #3AAA77; font-weight: 700; }
-.floor { font-family: 'Space Mono', monospace; font-size: 12px; color: #E84060; font-weight: 700; }
-.ceil-label { font-size: 9px; color: #3AAA77; font-family: 'Space Mono', monospace; display: block; }
-.floor-label { font-size: 9px; color: #E84060; font-family: 'Space Mono', monospace; text-align: right; display: block; }
-.card-outlook { font-size: 11px; color: #B0AEBF; line-height: 1.5; }
-.events-table { width: 100%; border-collapse: collapse; font-size: 11px; }
-.events-table th { font-family: 'Space Mono', monospace; font-size: 9px; color: #6A6882; letter-spacing: 0.08em; text-align: left; padding: 4px 8px; border-bottom: 0.5px solid #252535; }
-.events-table td { padding: 7px 8px; border-bottom: 0.5px solid #1A1A28; color: #B0AEBF; vertical-align: top; }
-.events-table td:first-child { font-family: 'Space Mono', monospace; color: #E8C878; font-size: 10px; white-space: nowrap; }
-.rf-dot { display: inline-block; width: 7px; height: 7px; background: #E84060; border-radius: 50%; margin-right: 5px; vertical-align: middle; }
-.summary-box { background: #0D0D14; border: 1px solid #C8A96E44; border-radius: 4px; padding: 14px 16px; margin: 12px 0; }
-.summary-text { font-size: 12px; color: #B0AEBF; line-height: 1.7; }
-.verdict-row { display: flex; gap: 10px; margin: 10px 0; flex-wrap: wrap; }
-.verdict-card { flex: 1; min-width: 180px; background: #17171F; border-radius: 4px; padding: 10px 12px; }
-.verdict-card.bull { border-left: 2.5px solid #3AAA77; }
-.verdict-card.bear { border-left: 2.5px solid #E84060; }
-.verdict-card.inv { border-left: 2.5px solid #6A6882; }
-.verdict-label { font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: 0.08em; margin-bottom: 4px; }
-.verdict-card.bull .verdict-label { color: #3AAA77; }
-.verdict-card.bear .verdict-label { color: #E84060; }
-.verdict-card.inv .verdict-label { color: #6A6882; }
-.verdict-text { font-size: 11px; color: #B0AEBF; line-height: 1.4; }
-.score { font-family: 'Space Mono', monospace; font-size: 22px; color: #E8C878; font-weight: 700; text-align: center; padding: 10px 0 4px; }
-.score-label { font-size: 10px; color: #6A6882; text-align: center; font-family: 'Space Mono', monospace; letter-spacing: 0.06em; }
-.footer { background: #0D0D14; border-top: 1px solid #8A7448; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; margin-top: 20px; flex-wrap: wrap; gap: 6px; }
-.footer-brand { font-family: 'Space Mono', monospace; font-size: 10px; color: #8A7448; }
-.footer-disc { font-size: 10px; color: #6A6882; }
-.week-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 14px; flex-wrap: wrap; gap: 10px; }
-.week-title { font-size: 18px; font-weight: 800; color: #F0EEF8; line-height: 1.1; }
-.week-sub { font-size: 11px; color: #6A6882; font-family: 'Space Mono', monospace; margin-top: 4px; }
-.tab-row { display: flex; gap: 0; border-bottom: 1px solid #252535; margin-bottom: 14px; flex-wrap: wrap; }
-.tab { font-size: 10px; font-family: 'Space Mono', monospace; letter-spacing: 0.05em; padding: 7px 12px; cursor: pointer; color: #6A6882; border: none; border-bottom: 2px solid transparent; background: none; transition: all 0.15s; }
-.tab:hover { color: #C8A96E; }
-.tab.active { color: #C8A96E; border-bottom-color: #C8A96E; }
-.tab-content { display: none; }
-.tab-content.active { display: block; }
-.prompt-box { background: #0D0D14; border: 1px solid #2A2A40; border-radius: 4px; padding: 14px 16px; margin-top: 12px; }
-.prompt-title { font-family: 'Space Mono', monospace; font-size: 10px; color: #7A55C8; letter-spacing: 0.08em; margin-bottom: 8px; }
-.prompt-text { font-family: 'Space Mono', monospace; font-size: 10px; color: #8A8898; line-height: 1.7; white-space: pre-wrap; }
-.bias-row { display: flex; gap: 8px; flex-wrap: wrap; margin: 6px 0 8px; }
-.bias-pill { font-family: 'Space Mono', monospace; font-size: 10px; padding: 3px 10px; border-radius: 20px; }
-.bull-pill { background: #0F3D28; color: #3AAA77; }
-.bear-pill { background: #3D0A14; color: #E84060; }
-.neutral-pill { background: #1A1A28; color: #6A6882; }
-.geo-box { background: #17171F; border: 1px solid #2A2A40; border-left: 2.5px solid #7A55C8; border-radius: 4px; padding: 12px 14px; }
-.geo-label { font-family: 'Space Mono', monospace; font-size: 10px; color: #7A55C8; margin-bottom: 6px; }
-.geo-text { font-size: 11px; color: #B0AEBF; line-height: 1.6; }
-.copy-btn { font-family: 'Space Mono', monospace; font-size: 10px; color: #C8A96E; border: 1px solid #C8A96E44; background: none; padding: 6px 14px; border-radius: 3px; cursor: pointer; margin-top: 10px; }
-.copy-btn:hover { background: #C8A96E22; }
+.strip-label { display: block; font-size: 8px; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); font-weight: 600; margin-bottom: 2px; }
+.strip-val { display: block; font-family: 'Cormorant Garamond', serif; font-size: 16px; font-weight: 600; color: var(--ink); }
+.strip-val.bull { color: var(--green); }
+.strip-val.bear { color: var(--red2); }
+.strip-val.gold { color: var(--gold); }
+
+/* MAIN */
+.main { padding: 48px 40px; max-width: 820px; margin: 0 auto; width: 100%; }
+
+/* HERO */
+.eyebrow { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+.eyebrow-line { width: 32px; height: 1px; background: var(--gold); }
+.eyebrow-text { font-size: 9px; letter-spacing: 4px; text-transform: uppercase; color: var(--gold); font-weight: 600; }
+.hero-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(44px, 10vw, 72px); font-weight: 300; line-height: 0.9; letter-spacing: -1px; color: var(--ink); margin-bottom: 8px; }
+.hero-title em { font-style: italic; color: var(--gold); }
+.hero-sub { font-family: 'Cormorant Garamond', serif; font-size: clamp(14px, 3vw, 18px); font-weight: 300; letter-spacing: 6px; text-transform: uppercase; color: var(--muted); margin-bottom: 20px; }
+.hero-meta { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin-bottom: 48px; }
+.hero-meta-item { font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); font-weight: 500; }
+.hero-meta-dot { width: 3px; height: 3px; background: var(--gold); transform: rotate(45deg); flex-shrink: 0; }
+
+/* ORNAMENT */
+.ornament { display: flex; align-items: center; gap: 16px; margin: 32px 0; }
+.ornament-line { flex: 1; height: 1px; background: linear-gradient(90deg, var(--gold), transparent); }
+.ornament-line.right { background: linear-gradient(270deg, var(--gold), transparent); }
+.ornament-diamond { width: 6px; height: 6px; background: var(--gold); transform: rotate(45deg); flex-shrink: 0; }
+
+/* SECTION LABEL */
+.section-label { font-size: 8px; letter-spacing: 4px; text-transform: uppercase; color: var(--gold); font-weight: 600; margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
+.section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+/* TAB ROW */
+.tab-row { display: flex; gap: 0; margin-bottom: 28px; border-bottom: 1px solid var(--border2); flex-wrap: wrap; }
+.tab-btn { background: none; border: none; border-bottom: 2px solid transparent; padding: 10px 16px; font-family: 'Montserrat', sans-serif; font-size: 8px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--muted2); cursor: pointer; font-weight: 500; transition: all 0.25s; margin-bottom: -1px; white-space: nowrap; }
+.tab-btn:hover { color: var(--ink); }
+.tab-btn.active { color: var(--gold); border-bottom-color: var(--gold); }
+.tab-pane { display: none; }
+.tab-pane.active { display: block; animation: fadeIn 0.3s ease; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+/* PROSE BOX */
+.prose-box { background: rgba(26,20,16,0.03); border: 1px solid var(--border); padding: 24px 28px; margin-bottom: 24px; }
+.prose-box p { font-size: 13px; color: var(--ink2); line-height: 1.9; font-weight: 400; }
+.prose-box p + p { margin-top: 14px; }
+.prose-box strong { color: var(--ink); font-weight: 500; }
+
+/* INSIGHT BOX */
+.insight-box { border: 1px solid var(--border); border-left: 3px solid var(--gold); padding: 20px 24px; margin: 24px 0; background: rgba(184,134,11,0.04); }
+.insight-label { font-size: 8px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); font-weight: 600; margin-bottom: 10px; }
+.insight-text { font-size: 13px; color: var(--ink2); line-height: 1.8; font-weight: 400; }
+.insight-text strong { color: var(--ink); font-weight: 500; }
+
+/* WARNING BOX */
+.warning-box { border: 1px solid rgba(192,57,43,0.2); border-left: 3px solid var(--red2); padding: 20px 24px; margin: 24px 0; background: rgba(139,26,26,0.03); }
+.warning-label { font-size: 8px; letter-spacing: 3px; text-transform: uppercase; color: var(--red2); font-weight: 600; margin-bottom: 10px; }
+.warning-text { font-size: 13px; color: var(--ink2); line-height: 1.8; font-weight: 400; }
+.warning-text strong { color: var(--ink); font-weight: 500; }
+
+/* MACRO GRID */
+.macro-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin-bottom: 28px; }
+.macro-card { padding: 22px 24px; border: 1px solid var(--border2); background: var(--cream); position: relative; overflow: hidden; transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+.macro-card-bg { position: absolute; inset: 0; background: var(--ink); transform: translateX(-101%); transition: transform 0.5s cubic-bezier(0.76, 0, 0.24, 1); z-index: 0; }
+.macro-card:hover .macro-card-bg { transform: translateX(0); }
+.macro-card-inner { position: relative; z-index: 1; }
+.macro-tag { font-size: 7px; letter-spacing: 2px; text-transform: uppercase; font-weight: 600; padding: 3px 8px; border: 1px solid; margin-bottom: 12px; display: inline-block; transition: all 0.35s; }
+.macro-tag.bull { color: var(--green); border-color: rgba(26,92,58,0.3); }
+.macro-tag.bear { color: var(--red2); border-color: rgba(192,57,43,0.3); }
+.macro-tag.neutral { color: var(--gold); border-color: var(--border); }
+.macro-card:hover .macro-tag { border-color: rgba(212,160,23,0.4); color: var(--gold2); }
+.macro-name { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 600; color: var(--ink); margin-bottom: 4px; line-height: 1.1; transition: color 0.35s; }
+.macro-card:hover .macro-name { color: var(--cream); }
+.macro-val { font-family: 'Cormorant Garamond', serif; font-size: 13px; font-style: italic; color: var(--muted); margin-bottom: 12px; transition: color 0.35s; }
+.macro-card:hover .macro-val { color: rgba(245,240,232,0.5); }
+.macro-text { font-size: 11px; color: var(--ink2); line-height: 1.7; font-weight: 400; transition: color 0.35s; }
+.macro-card:hover .macro-text { color: rgba(245,240,232,0.55); }
+
+/* BIAS TABLE */
+.bias-table { width: 100%; border-collapse: collapse; margin-bottom: 28px; }
+.bias-table thead tr { border-bottom: 1px solid var(--border); }
+.bias-table th { font-size: 7px; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); font-weight: 600; text-align: left; padding: 8px 12px; }
+.bias-table tbody tr { border-bottom: 1px solid var(--border2); transition: background 0.2s; }
+.bias-table tbody tr:hover { background: rgba(184,134,11,0.04); }
+.bias-table tbody tr:last-child { border-bottom: none; }
+.bias-table td { padding: 14px 12px; font-size: 12px; color: var(--muted); vertical-align: middle; }
+.bias-table td:first-child { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 600; color: var(--ink); }
+.bias-pill { font-size: 8px; letter-spacing: 2px; text-transform: uppercase; font-weight: 600; padding: 3px 10px; border: 1px solid; display: inline-block; }
+.bias-pill.bull { color: var(--green); border-color: rgba(26,92,58,0.3); }
+.bias-pill.bear { color: var(--red2); border-color: rgba(192,57,43,0.3); }
+.bias-pill.neutral { color: var(--gold); border-color: var(--border); }
+
+/* RF BOX */
+.rf-box { border: 1px solid rgba(192,57,43,0.2); border-left: 3px solid var(--red2); padding: 24px 28px; margin-bottom: 20px; background: rgba(139,26,26,0.03); }
+.rf-title { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 600; color: var(--red2); margin-bottom: 4px; }
+.rf-date { font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); font-weight: 500; margin-bottom: 14px; }
+.rf-body { font-size: 13px; color: var(--ink2); line-height: 1.8; font-weight: 400; margin-bottom: 18px; }
+.rf-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.rf-scenario { padding: 16px 18px; border: 1px solid var(--border2); }
+.rf-scenario.cool { border-left: 2px solid var(--green); background: rgba(26,92,58,0.04); }
+.rf-scenario.hot { border-left: 2px solid var(--red2); background: rgba(139,26,26,0.04); }
+.rf-scenario-label { font-size: 8px; letter-spacing: 3px; text-transform: uppercase; font-weight: 600; margin-bottom: 8px; }
+.rf-scenario.cool .rf-scenario-label { color: var(--green); }
+.rf-scenario.hot .rf-scenario-label { color: var(--red2); }
+.rf-scenario p { font-size: 12px; color: var(--ink2); line-height: 1.7; font-weight: 400; }
+
+/* CHAIN */
+.chain { margin-bottom: 24px; }
+.chain-item { display: flex; gap: 20px; padding: 20px 0; border-bottom: 1px solid var(--border2); }
+.chain-item:last-child { border-bottom: none; }
+.chain-num { font-family: 'Cormorant Garamond', serif; font-size: 32px; font-weight: 300; color: var(--gold); opacity: 0.4; min-width: 36px; line-height: 1; flex-shrink: 0; padding-top: 2px; }
+.chain-body { flex: 1; }
+.chain-title { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 600; color: var(--ink); margin-bottom: 8px; line-height: 1.2; }
+.chain-text { font-size: 12px; color: var(--ink2); line-height: 1.8; font-weight: 400; }
+.chain-text strong { color: var(--ink2); font-weight: 500; }
+
+/* SCHEDULE */
+.schedule { border: 1px solid var(--border2); margin-bottom: 24px; }
+.schedule-row { display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; border-bottom: 1px solid var(--border2); gap: 12px; flex-wrap: wrap; }
+.schedule-row:last-child { border-bottom: none; }
+.schedule-date { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); font-weight: 600; min-width: 160px; }
+.schedule-event { font-size: 12px; color: var(--ink2); flex: 1; font-weight: 400; }
+.schedule-impact { font-size: 7px; letter-spacing: 2px; text-transform: uppercase; font-weight: 600; padding: 3px 8px; border: 1px solid; white-space: nowrap; }
+.impact-max { color: var(--red2); border-color: rgba(192,57,43,0.3); }
+.impact-high { color: var(--gold); border-color: var(--border); }
+.impact-mod { color: var(--muted); border-color: var(--border2); }
+
+/* UPGRADE TEASER */
+.upgrade-teaser { border: 1px solid var(--border); border-left: 3px solid var(--gold); padding: 28px 32px; margin: 36px 0; background: rgba(184,134,11,0.04); }
+.upgrade-teaser-label { font-size: 9px; letter-spacing: 4px; text-transform: uppercase; color: var(--gold); font-weight: 600; margin-bottom: 12px; }
+.upgrade-teaser-title { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 400; color: var(--ink); margin-bottom: 10px; }
+.upgrade-teaser-title em { font-style: italic; color: var(--gold); }
+.upgrade-teaser-text { font-size: 12px; color: var(--ink2); line-height: 1.8; font-weight: 400; }
+
+/* FOOTER */
+.footer { padding: 28px 40px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
+.footer-disc { font-size: 10px; color: var(--muted); line-height: 1.7; font-weight: 500; max-width: 480px; }
+.footer-disc strong { color: var(--gold); font-weight: 600; }
+.footer-brand { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-style: italic; color: var(--ink2); opacity: 0.3; white-space: nowrap; }
+
+@keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@media (max-width: 600px) {
+  .topbar, .main, .footer, .strip { padding-left: 20px; padding-right: 20px; }
+  .macro-grid, .rf-grid { grid-template-columns: 1fr; }
+  body { cursor: auto; }
+  .cursor, .cursor-ring { display: none; }
+}
 </style>
 </head>
 <body>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
 
-<div class="topbar">
-  <div class="brand">HIPMARVIN FX FUNDAMENTALS</div>
-  <div class="topbar-center">WEEKLY OUTLOOK · W/C 18 MAY 2026</div>
-  <div class="topbar-right">
-    <span class="badge badge-nervous">HIGH IMPACT</span>
-    <span class="badge badge-cautious">CAUTIOUS</span>
-  </div>
-</div>
+<div class="page">
 
-<div class="strip">
-  <div class="strip-item"><span class="strip-label">USD BIAS</span><span class="strip-val">STRONG</span></div>
-  <div class="strip-item"><span class="strip-label">GOLD XAU</span><span class="strip-val">$4,730</span></div>
-  <div class="strip-item"><span class="strip-label">BTC/USD</span><span class="strip-val">$80,900</span></div>
-  <div class="strip-item"><span class="strip-label">OIL WTI</span><span class="strip-val red">RISING</span></div>
-  <div class="strip-item"><span class="strip-label">US RATES</span><span class="strip-val">3.50–3.75%</span></div>
-  <div class="strip-item"><span class="strip-label">DXY</span><span class="strip-val">~98.49</span></div>
-</div>
-
-<div class="body">
-  <div class="week-header">
-    <div>
-      <div class="week-title">WEEKLY OUTLOOK</div>
-      <div class="week-sub">18 – 22 MAY 2026 · ANALYST: ELIJAH AGOM</div>
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <div class="topbar-left">HipMarvin FX &nbsp;/&nbsp; Weekly Outlook</div>
+    <div class="topbar-right">
+      <span class="topbar-date">Sunday, 17 May 2026</span>
+      <span class="badge-green">✦ Free Access</span>
+      <span class="badge-cautious">Cautious Bias</span>
     </div>
-    <div style="text-align:right">
-      <div class="score">7/10</div>
-      <div class="score-label">BULLISH USD BIAS</div>
-    </div>
+  </header>
+
+  <!-- STRIP -->
+  <div class="strip">
+    <div class="strip-item"><span class="strip-label">DXY Bias</span><span class="strip-val bear">Bearish</span></div>
+    <div class="strip-item"><span class="strip-label">Gold Bias</span><span class="strip-val bull">Bullish</span></div>
+    <div class="strip-item"><span class="strip-label">EUR/USD</span><span class="strip-val bull">Buy Dips</span></div>
+    <div class="strip-item"><span class="strip-label">GBP/USD</span><span class="strip-val gold">Cautious</span></div>
+    <div class="strip-item"><span class="strip-label">USD/JPY</span><span class="strip-val bear">Sell Rallies</span></div>
+    <div class="strip-item"><span class="strip-label">Week Bias</span><span class="strip-val gold">USD Weak</span></div>
   </div>
 
-  <div class="tab-row">
-    <button class="tab active" onclick="showTab('events',this)">KEY EVENTS</button>
-    <button class="tab" onclick="showTab('pairs',this)">PAIR OUTLOOK</button>
-    <button class="tab" onclick="showTab('verdict',this)">VERDICT</button>
-    
-  </div>
+  <!-- MAIN -->
+  <main class="main">
 
-  <!-- TAB: EVENTS -->
-  <div id="tab-events" class="tab-content active">
-    <div class="section-title">■ RED FOLDER EVENTS THIS WEEK</div>
-    <div class="rf-box">
-      <div class="rf-title">⚠ HIGH IMPACT WEEK — MULTIPLE RED FOLDERS</div>
-      <p class="rf-body">Three macro drivers dominate the week. Fed Chair Warsh's first formal remarks, FOMC minutes, and the BoE rate decision are the keystones. Combined with residual Iran ceasefire risk and Trump-Xi Day 2 trade deal fallout, this is a maximum-volatility week. Reduce size on all red folder days.</p>
-      <div class="rf-grid">
-        <div class="rf-scenario cool">
-          <div class="rf-scenario-label">■ COOL SCENARIO — USD WEAKENS</div>
-          <p>Warsh sounds neutral. FOMC minutes show cut debate alive. Iran deal confirmed. DXY retreats to 97.50. EURUSD recovers 1.1800. USDJPY slides toward 155.</p>
-        </div>
-        <div class="rf-scenario hot">
-          <div class="rf-scenario-label">■ HOT SCENARIO — USD EXTENDS</div>
-          <p>Warsh hawkish on inflation. FOMC minutes confirm no cuts. Iran escalates. DXY breaks 99.50. USDJPY targets 160. EURUSD cracks below 1.1550.</p>
-        </div>
-      </div>
+    <!-- HERO -->
+    <div class="eyebrow"><div class="eyebrow-line"></div><span class="eyebrow-text">Weekly Outlook · Public · W/C 19 May 2026</span></div>
+    <h1 class="hero-title">Weekly<br><em>Outlook</em></h1>
+    <div class="hero-sub">Week Commencing 19 May 2026</div>
+    <div class="hero-meta">
+      <span class="hero-meta-item">Analyst · Elijah Agom</span>
+      <span class="hero-meta-dot"></span>
+      <span class="hero-meta-item">Published Sunday 17 May 2026</span>
+      <span class="hero-meta-dot"></span>
+      <span class="hero-meta-item">Free Edition</span>
     </div>
 
-    <table class="events-table">
-      <thead>
-        <tr>
-          <th>DAY · TIME (WAT)</th>
-          <th>EVENT</th>
-          <th>PAIRS IMPACTED</th>
-          <th>IMPACT</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr><td>MON 18 MAY · 3:00PM</td><td><span class="rf-dot"></span>Warsh First Formal Remarks as Fed Chair</td><td>DXY · USDJPY · XAUUSD</td><td style="color:#E84060">MAXIMUM</td></tr>
-        <tr><td>TUE 19 MAY · 3:30PM</td><td>US Housing Starts + Building Permits</td><td>DXY · EURUSD</td><td style="color:#D4883A">MODERATE</td></tr>
-        <tr><td>WED 20 MAY · 7:00PM</td><td><span class="rf-dot"></span>FOMC Minutes — May Meeting</td><td>ALL MAJORS · XAUUSD · BTC</td><td style="color:#E84060">MAXIMUM</td></tr>
-        <tr><td>THU 21 MAY · 12:00PM</td><td><span class="rf-dot"></span>BoE Rate Decision + Outlook</td><td>GBPUSD · EURGBP</td><td style="color:#D4883A">HIGH</td></tr>
-        <tr><td>FRI 22 MAY · 3:00PM</td><td>US Durable Goods Orders — April</td><td>DXY · USDJPY</td><td style="color:#3AAA77">MODERATE</td></tr>
-      </tbody>
-    </table>
-
-    <div class="section-title" style="margin-top:16px">■ GEOPOLITICAL OVERLAY</div>
-    <div class="geo-box">
-      <div class="geo-label">SECONDARY DRIVERS — WATCH ALL WEEK</div>
-      <div class="geo-text">Iran ceasefire remains fragile. Any weekend escalation gaps pairs at Monday open — reduce all position sizes by Friday close. Trump-Xi trade deal details from Day 2 may drip through Monday, boosting AUD and risk FX. BOJ intervention threshold at USDJPY 158–160 is live all week.</div>
+    <!-- TABS -->
+    <div class="tab-row">
+      <button class="tab-btn active" onclick="showTab('macro', this)">Macro Bias</button>
+      <button class="tab-btn" onclick="showTab('pairs', this)">Pair Biases</button>
+      <button class="tab-btn" onclick="showTab('events', this)">Key Events</button>
+      <button class="tab-btn" onclick="showTab('scenarios', this)">Scenarios</button>
     </div>
-  </div>
 
-  <!-- TAB: PAIRS -->
-  <div id="tab-pairs" class="tab-content">
-    <div class="section-title">■ CURRENCY PAIR WEEKLY OUTLOOK</div>
-    <div class="cards-grid">
+    <!-- TAB: MACRO BIAS -->
+    <div class="tab-pane active" id="tab-macro">
 
-      <div class="card">
-        <div class="card-header"><span class="card-pair">EUR / USD</span><div><span class="card-current">1.1672</span><span class="badge badge-cautious">CAUTIOUS</span></div></div>
-        <div class="card-fullname">Euro vs Dollar</div>
-        <hr class="divider">
-        <span class="label">WEEKLY BIAS</span>
-        <div class="bias-row"><span class="bias-pill bear-pill">BEARISH LEAN</span></div>
-        <span class="label">KEY TRIGGER</span>
-        <div class="card-trigger">FOMC Minutes Wednesday + Warsh Monday. Break below 200-DMA at 1.1680 is the signal. Euro has no independent catalyst to recover this week.</div>
-        <div class="levels">
-          <div><span class="ceil-label">■ WEEKLY CEIL</span><span class="ceil">1.1800</span></div>
-          <div style="text-align:right"><span class="floor-label">■ WEEKLY FLOOR</span><span class="floor">1.1550</span></div>
-        </div>
-        <span class="label gold">WEEKLY OUTLOOK</span>
-        <div class="card-outlook">Hawkish Warsh Monday opens week bearish. FOMC minutes Wednesday is the make-or-break. Hint of cuts = relief bounce to 1.1800. Hawkish minutes confirm 1.1550 by Friday.</div>
+      <div class="section-label">Weekly Macro Theme</div>
+      <div class="prose-box">
+        <p>The dominant theme entering the week of 19 May is <strong>Dollar vulnerability</strong>. Last week's CPI miss and dovish Waller commentary have shifted the market's Fed narrative from "higher for longer" to "cut by September." This changes the fundamental backdrop for every USD pair on your watchlist.</p>
+        <p>The key question this week: <strong>will the FOMC Minutes on Tuesday confirm or contradict</strong> the dovish pivot the market has priced in? If the minutes show broad agreement that rates are sufficiently restrictive, Dollar selling will accelerate. If they show a divided committee, expect a short-term DXY bounce before the downtrend resumes.</p>
+        <p>Gold remains the cleanest long in this environment. Every pullback to $4,680–$4,700 is institutional accumulation. XAU/USD is not reversing — it is reloading.</p>
       </div>
 
-      <div class="card">
-        <div class="card-header"><span class="card-pair">GBP / USD</span><div><span class="card-current">1.3482</span><span class="badge badge-cautious">CAUTIOUS</span></div></div>
-        <div class="card-fullname">Pound vs Dollar</div>
-        <hr class="divider">
-        <span class="label">WEEKLY BIAS</span>
-        <div class="bias-row"><span class="bias-pill bear-pill">BEARISH LEAN</span></div>
-        <span class="label">KEY TRIGGER</span>
-        <div class="card-trigger">BoE Thursday is the week's key independent catalyst. Hold expected but dovish Bailey language = GBP drops sharply. USD strength is the dominant force.</div>
-        <div class="levels">
-          <div><span class="ceil-label">■ WEEKLY CEIL</span><span class="ceil">1.3600</span></div>
-          <div style="text-align:right"><span class="floor-label">■ WEEKLY FLOOR</span><span class="floor">1.3320</span></div>
-        </div>
-        <span class="label gold">WEEKLY OUTLOOK</span>
-        <div class="card-outlook">Holding 1.3480 support into BoE. A hold with neutral guidance = range. Dovish surprise or hawkish Warsh = 1.3380 floor targeted. Ceiling capped by USD strength.</div>
+      <div class="insight-box">
+        <div class="insight-label">Elijah's Weekly Thesis</div>
+        <div class="insight-text">This is a <strong>Dollar-selling week with a risk-managed approach</strong>. Do not chase moves — wait for the FOMC Minutes on Tuesday to set direction. The best setups will come Wednesday–Thursday after the dust settles. GBP/USD is the wildcard: the BoE on Thursday could either amplify or cancel the USD weakness trade.</div>
       </div>
 
-      <div class="card">
-        <div class="card-header"><span class="card-pair">USD / JPY</span><div><span class="card-current">157.52</span><span class="badge badge-nervous">NERVOUS</span></div></div>
-        <div class="card-fullname">Dollar vs Yen</div>
-        <hr class="divider">
-        <span class="label">WEEKLY BIAS</span>
-        <div class="bias-row"><span class="bias-pill bull-pill">BULLISH USD</span><span class="bias-pill bear-pill">BOJ RISK</span></div>
-        <span class="label">KEY TRIGGER</span>
-        <div class="card-trigger">BOJ intervention threshold at 158.00 is live. Every pip above 158 raises the risk of a 200–300 pip flash crash. Always run emergency stops above 158.</div>
-        <div class="levels">
-          <div><span class="ceil-label">■ WEEKLY CEIL</span><span class="ceil">159.50</span></div>
-          <div style="text-align:right"><span class="floor-label">■ WEEKLY FLOOR</span><span class="floor">155.00</span></div>
-        </div>
-        <span class="label gold">WEEKLY OUTLOOK</span>
-        <div class="card-outlook">Structural USD bull intact. Carry trade continues. Above 158.00 = intervention danger zone. Never size up without a tight emergency stop. Warsh and FOMC minutes are the twin weekly drivers.</div>
-      </div>
+      <div class="ornament"><div class="ornament-line"></div><div class="ornament-diamond"></div><div class="ornament-line right"></div></div>
 
-      <div class="card">
-        <div class="card-header"><span class="card-pair">XAU / USD</span><div><span class="card-current">$4,730</span><span class="badge badge-nervous">NERVOUS</span></div></div>
-        <div class="card-fullname">Gold vs Dollar</div>
-        <hr class="divider">
-        <span class="label">WEEKLY BIAS</span>
-        <div class="bias-row"><span class="bias-pill neutral-pill">RANGE BOUND</span></div>
-        <span class="label">KEY TRIGGER</span>
-        <div class="card-trigger">Caught between war floor ($4,680) and rate-fear cap ($4,820). Iran news is the single biggest mover. FOMC minutes are the rate fear trigger.</div>
-        <div class="levels">
-          <div><span class="ceil-label">■ WEEKLY CEIL</span><span class="ceil">$4,850</span></div>
-          <div style="text-align:right"><span class="floor-label">■ WEEKLY FLOOR</span><span class="floor">$4,620</span></div>
+      <div class="section-label">Macro Drivers This Week</div>
+      <div class="macro-grid">
+        <div class="macro-card">
+          <div class="macro-card-bg"></div>
+          <div class="macro-card-inner">
+            <div class="macro-tag bear">Bearish USD</div>
+            <div class="macro-name">Fed Rate Path</div>
+            <div class="macro-val">72% cut probability by Sep</div>
+            <div class="macro-text">CME FedWatch now prices a 72% chance of a September cut. This is a structural shift — not a blip. Any data that confirms disinflation will accelerate Dollar selling.</div>
+          </div>
         </div>
-        <span class="label gold">WEEKLY OUTLOOK</span>
-        <div class="card-outlook">Range expected unless Iran surprises. Hawkish FOMC = Gold dips toward $4,620. Escalation = Gold spikes to $4,850+. $4,680 is the key pivot — below it means war premium is unwinding.</div>
-      </div>
-
-      <div class="card">
-        <div class="card-header"><span class="card-pair">AUD / USD</span><div><span class="card-current">0.6452</span><span class="badge badge-active">ACTIVE</span></div></div>
-        <div class="card-fullname">Aussie vs Dollar</div>
-        <hr class="divider">
-        <span class="label">WEEKLY BIAS</span>
-        <div class="bias-row"><span class="bias-pill bull-pill">BULLISH LEAN</span></div>
-        <span class="label">KEY TRIGGER</span>
-        <div class="card-trigger">Trump-Xi deal details arriving Monday morning (Beijing time). Any $1T Chinese goods purchase confirmation = AUD rips 1.5%+ instantly. Best risk-reward long of the week if deal lands.</div>
-        <div class="levels">
-          <div><span class="ceil-label">■ WEEKLY CEIL</span><span class="ceil">0.6580</span></div>
-          <div style="text-align:right"><span class="floor-label">■ WEEKLY FLOOR</span><span class="floor">0.6320</span></div>
+        <div class="macro-card">
+          <div class="macro-card-bg"></div>
+          <div class="macro-card-inner">
+            <div class="macro-tag bull">Bullish Gold</div>
+            <div class="macro-name">Safe Haven Demand</div>
+            <div class="macro-val">XAU/USD above $4,700</div>
+            <div class="macro-text">Gold's break above $4,700 is structural. Central bank buying continues. Real yields declining. Every dip is being bought by institutional money.</div>
+          </div>
         </div>
-        <span class="label gold">WEEKLY OUTLOOK</span>
-        <div class="card-outlook">Best G10 performer last week. China risk-on proxy. Summit mega-deal = 0.6550–0.6580 target. Hawkish Warsh + no deal = 0.6380 support tested. Watch Monday open before sizing up.</div>
-      </div>
-
-      <div class="card purple-bar">
-        <div class="card-header"><span class="card-pair">BTC / USD</span><div><span class="card-current">$80,900</span><span class="badge badge-cautious">CAUTIOUS</span></div></div>
-        <div class="card-fullname">Bitcoin vs Dollar</div>
-        <hr class="divider">
-        <span class="label">WEEKLY BIAS</span>
-        <div class="bias-row"><span class="bias-pill neutral-pill">RISK DEPENDENT</span></div>
-        <span class="label">KEY TRIGGER</span>
-        <div class="card-trigger">FOMC minutes and Warsh tone are the binary triggers. Risk-on summit deal = BTC rallies toward $85K. Hawkish week + no deal = BTC tests $78K support zone.</div>
-        <div class="levels">
-          <div><span class="ceil-label">■ WEEKLY CEIL</span><span class="ceil">$85,500</span></div>
-          <div style="text-align:right"><span class="floor-label">■ WEEKLY FLOOR</span><span class="floor">$77,500</span></div>
+        <div class="macro-card">
+          <div class="macro-card-bg"></div>
+          <div class="macro-card-inner">
+            <div class="macro-tag neutral">Watch</div>
+            <div class="macro-name">BoE Decision</div>
+            <div class="macro-val">Thursday 21 May</div>
+            <div class="macro-text">The Bank of England holds Thursday. A hold with hawkish language caps GBP downside. A hold with dovish language sends GBP/USD back toward 1.3200. This is the week's biggest binary risk.</div>
+          </div>
         </div>
-        <span class="label gold">WEEKLY OUTLOOK</span>
-        <div class="card-outlook">Delicate range. $85K is resistance that's failed twice. Only a clear risk-on catalyst breaks it cleanly. Below $78K = further correction. Reduce size before FOMC minutes Wednesday.</div>
+        <div class="macro-card">
+          <div class="macro-card-bg"></div>
+          <div class="macro-card-inner">
+            <div class="macro-tag bear">Risk</div>
+            <div class="macro-name">FOMC Minutes</div>
+            <div class="macro-val">Tuesday 20 May · 3:30PM WAT</div>
+            <div class="macro-text">The minutes will reveal how unified the Fed was at the last meeting. A divided committee = USD bounce. Broad agreement on restricting = USD selling continues.</div>
+          </div>
+        </div>
       </div>
 
     </div>
-  </div>
 
-  <!-- TAB: VERDICT -->
-  <div id="tab-verdict" class="tab-content">
-    <div class="section-title">■ WEEKLY VERDICT</div>
-    <div class="summary-box">
-      <p class="summary-text">The week of 18–22 May 2026 is shaped by three macro pillars: Warsh's first formal remarks as Fed Chair (Monday), FOMC minutes (Wednesday), and the BoE decision (Thursday). The structural USD bull case — hot inflation, hawkish Fed, Iran war premium — remains intact. But three events this week have the power to pause or reverse it. The base case is continued USD consolidation at elevated levels, with a breakout in either direction depending on Warsh's tone. The single biggest overnight risk remains Iran: any weekend ceasefire deal announcement gaps all pairs violently at Monday open.</p>
-    </div>
-    <div class="verdict-row">
-      <div class="verdict-card bull">
-        <div class="verdict-label">■ BULL CASE</div>
-        <p class="verdict-text">Warsh hawkish Monday → FOMC minutes confirm no cuts → BoE dovish Thursday → USD dominates all week. DXY 99.50. USDJPY 159–160. EURUSD 1.1550.</p>
+    <!-- TAB: PAIR BIASES -->
+    <div class="tab-pane" id="tab-pairs">
+
+      <div class="section-label">Weekly Bias — Key Pairs</div>
+      <table class="bias-table">
+        <thead>
+          <tr>
+            <th>Pair</th>
+            <th>Bias</th>
+            <th>Key Level to Watch</th>
+            <th>Reasoning</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>EUR/USD</td>
+            <td><span class="bias-pill bull">Bullish</span></td>
+            <td>1.1200 support</td>
+            <td>Buy dips toward 1.1200. Target 1.1350 if FOMC Minutes are dovish.</td>
+          </tr>
+          <tr>
+            <td>GBP/USD</td>
+            <td><span class="bias-pill neutral">Cautious</span></td>
+            <td>1.3340 resistance</td>
+            <td>Bullish above 1.3250 but BoE Thursday is a major binary risk. Reduce size.</td>
+          </tr>
+          <tr>
+            <td>USD/JPY</td>
+            <td><span class="bias-pill bear">Bearish</span></td>
+            <td>155.50 resistance</td>
+            <td>Sell rallies toward 155.00–155.50. Target 152.50 on continuation.</td>
+          </tr>
+          <tr>
+            <td>AUD/USD</td>
+            <td><span class="bias-pill bull">Bullish</span></td>
+            <td>0.6360 support</td>
+            <td>Risk-on sentiment + weak USD supports AUD. Watch China data Monday.</td>
+          </tr>
+          <tr>
+            <td>XAU/USD</td>
+            <td><span class="bias-pill bull">Bullish</span></td>
+            <td>$4,680 support</td>
+            <td>Buy dips. $4,700 is the new floor. Target $4,820 then $4,900.</td>
+          </tr>
+          <tr>
+            <td>DXY</td>
+            <td><span class="bias-pill bear">Bearish</span></td>
+            <td>98.00 resistance</td>
+            <td>Any bounce to 97.80–98.00 is a sell. Structural downtrend intact.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="warning-box">
+        <div class="warning-label">⚠ Risk Warning</div>
+        <div class="warning-text">The BoE on Thursday creates <strong>binary risk on all GBP pairs</strong>. Do not carry large GBP positions into the decision without a stop in place. A surprise hawkish hold could push GBP/USD 100+ pips in either direction within minutes.</div>
       </div>
-      <div class="verdict-card bear">
-        <div class="verdict-label">■ BEAR CASE</div>
-        <p class="verdict-text">Summit mega-deal Monday AM + Iran surprise ceasefire → risk-on explosion. DXY 97.50. USDJPY 155. AUD +1.5%. Gold spikes as war premium unwinds.</p>
+
+    </div>
+
+    <!-- TAB: KEY EVENTS -->
+    <div class="tab-pane" id="tab-events">
+
+      <div class="section-label">Economic Calendar — W/C 19 May 2026</div>
+      <div class="schedule">
+        <div class="schedule-row">
+          <div class="schedule-date">Mon 19 May · 6AM WAT</div>
+          <div class="schedule-event">China Industrial Output + Retail Sales · Watch AUD/USD reaction</div>
+          <span class="schedule-impact impact-high">High</span>
+        </div>
+        <div class="schedule-row">
+          <div class="schedule-date">Tue 20 May · 3:30PM WAT</div>
+          <div class="schedule-event">FOMC Meeting Minutes Release — The week's pivotal event</div>
+          <span class="schedule-impact impact-max">Maximum</span>
+        </div>
+        <div class="schedule-row">
+          <div class="schedule-date">Wed 21 May · 10AM WAT</div>
+          <div class="schedule-event">Eurozone CPI Final Reading</div>
+          <span class="schedule-impact impact-high">High</span>
+        </div>
+        <div class="schedule-row">
+          <div class="schedule-date">Thu 22 May · 12PM WAT</div>
+          <div class="schedule-event">BoE Rate Decision + Forward Guidance Press Conference</div>
+          <span class="schedule-impact impact-max">Maximum</span>
+        </div>
+        <div class="schedule-row">
+          <div class="schedule-date">Thu 22 May · 3:30PM WAT</div>
+          <div class="schedule-event">US Weekly Jobless Claims</div>
+          <span class="schedule-impact impact-high">High</span>
+        </div>
+        <div class="schedule-row">
+          <div class="schedule-date">Fri 23 May · 3:30PM WAT</div>
+          <div class="schedule-event">US Durable Goods Orders (MoM)</div>
+          <span class="schedule-impact impact-mod">Moderate</span>
+        </div>
+        <div class="schedule-row">
+          <div class="schedule-date">Fri 23 May · 5PM WAT</div>
+          <div class="schedule-event">University of Michigan Consumer Sentiment (Final)</div>
+          <span class="schedule-impact impact-mod">Moderate</span>
+        </div>
       </div>
-      <div class="verdict-card inv">
-        <div class="verdict-label">■ INVALIDATION</div>
-        <p class="verdict-text">DXY daily close below 97.00 on any day this week = USD bull structure broken. Reassess all longs immediately. No exceptions.</p>
+
+      <div class="insight-box">
+        <div class="insight-label">How to Trade the Calendar</div>
+        <div class="insight-text">Two events dominate: <strong>FOMC Minutes Tuesday</strong> and <strong>BoE Thursday</strong>. Avoid new positions in the 2 hours before each release. Wait for the initial spike to settle — the second move after a major release is almost always the tradeable one. Do not trade the first 5-minute candle.</div>
+      </div>
+
+    </div>
+
+    <!-- TAB: SCENARIOS -->
+    <div class="tab-pane" id="tab-scenarios">
+
+      <div class="section-label">Scenario Planning — W/C 19 May 2026</div>
+
+      <div class="rf-box">
+        <div class="rf-title">FOMC Minutes — Tuesday 20 May</div>
+        <div class="rf-date">3:30 PM WAT · Maximum Impact</div>
+        <div class="rf-body">The minutes from the May FOMC meeting will either confirm or deny the market's dovish repricing. This is the single most important release of the week for USD pairs.</div>
+        <div class="rf-grid">
+          <div class="rf-scenario cool">
+            <div class="rf-scenario-label">Dovish Minutes</div>
+            <p>Broad agreement that rates are sufficiently restrictive. USD selling resumes. EUR/USD targets 1.1350. Gold pushes toward $4,820. USD/JPY breaks below 153.80.</p>
+          </div>
+          <div class="rf-scenario hot">
+            <div class="rf-scenario-label">Hawkish Minutes</div>
+            <p>Divided committee or renewed inflation concern. USD bounces to 98.00. EUR/USD pulls back to 1.1150. Gold dips to $4,650–$4,680 before recovering.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="rf-box">
+        <div class="rf-title">BoE Decision — Thursday 22 May</div>
+        <div class="rf-date">12:00 PM WAT · Maximum Impact</div>
+        <div class="rf-body">The Bank of England is expected to hold rates at 5.0%. What matters is the language — specifically the vote split and Governor Bailey's press conference tone.</div>
+        <div class="rf-grid">
+          <div class="rf-scenario cool">
+            <div class="rf-scenario-label">Hold + Hawkish Guidance</div>
+            <p>Bailey signals rates will remain elevated into year-end. GBP/USD breaks above 1.3340, targets 1.3420. GBP/JPY also catches a strong bid.</p>
+          </div>
+          <div class="rf-scenario hot">
+            <div class="rf-scenario-label">Hold + Dovish Language</div>
+            <p>Bailey opens door to cuts. GBP/USD drops to 1.3200–1.3220 zone. GBP strength thesis temporarily broken. Reassess GBP longs after the dust settles.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-label">Elijah's Base Case</div>
+      <div class="chain">
+        <div class="chain-item">
+          <div class="chain-num">1</div>
+          <div class="chain-body">
+            <div class="chain-title">FOMC Minutes confirm dovish lean → USD sells off Tuesday afternoon</div>
+            <div class="chain-text">EUR/USD pushes to 1.1300–1.1320. Gold holds above $4,700. <strong>Best entry window: Wednesday morning Asian session.</strong></div>
+          </div>
+        </div>
+        <div class="chain-item">
+          <div class="chain-num">2</div>
+          <div class="chain-body">
+            <div class="chain-title">BoE holds with cautious language → GBP consolidates</div>
+            <div class="chain-text">GBP/USD stays in the 1.3250–1.3350 range. <strong>Not a clean directional trade.</strong> Focus on EUR/USD and XAU/USD instead for Thursday.</div>
+          </div>
+        </div>
+        <div class="chain-item">
+          <div class="chain-num">3</div>
+          <div class="chain-body">
+            <div class="chain-title">Durable Goods Friday → Confirmation or contradiction</div>
+            <div class="chain-text">A weak print confirms the soft-landing narrative and extends USD weakness into the weekend. A strong print causes a late Friday squeeze — <strong>do not hold aggressive USD-short positions into Friday close.</strong></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- UPGRADE TEASER -->
+    <div class="upgrade-teaser">
+      <div class="upgrade-teaser-label">✦ Premium Members Get More</div>
+      <div class="upgrade-teaser-title">The <em>full outlook</em> includes:</div>
+      <div class="upgrade-teaser-text">
+        Exact entry zones, stop levels & pip targets on every bias listed · Elijah's ranked trade priority list for the week · COT positioning data breakdown · Institutional flow analysis · Full risk scenario matrix with probability weightings · Pre-market checklist for every day of the week.<br><br>
+        <strong>Contact us to upgrade your access.</strong>
       </div>
     </div>
-    <div style="margin-top:16px;background:#17171F;border:1px solid #2A2A40;border-radius:4px;padding:14px 16px;">
-      <div class="label gold" style="font-size:10px;margin-bottom:8px;">■ BEGINNER TAKEAWAY</div>
-      <p style="font-size:12px;color:#B0AEBF;line-height:1.7;">This week, the Dollar's fate is decided by what Jerome Powell's replacement says — and whether the war in the Middle East cools down. Three big events (Warsh speech, Fed minutes, BoE decision) mean three potential turning points. The rule: wait for each event to drop, then trade what you see. Do not guess the outcome in advance. Reduce your position size before every red folder event.</p>
-    </div>
-    <div style="margin-top:12px;text-align:center;font-family:'Space Mono',monospace;font-size:11px;color:#C8A96E;letter-spacing:0.06em;">Week ahead debrief drops every Sunday. Stay locked in. 🔐</div>
-  </div>
 
-  <!-- TAB: PROMPT -->
-  <div id="tab-prompt" class="tab-content">
-    <div class="section-title">■ MASTER PROMPT — WEEKLY OUTLOOK GENERATOR</div>
-    <div class="prompt-box">
-      <div class="prompt-title">▸ COPY THIS PROMPT TO GENERATE YOUR WEEKLY OUTLOOK</div>
-      <div class="prompt-text" id="promptText">Act as Elijah Agom, elite FX analyst for HipMarvin FX Fundamentals.
+  </main>
 
-Generate a full Weekly Outlook in HipMarvin FX Fundamentals house style.
+  <!-- FOOTER -->
+  <footer class="footer">
+    <p class="footer-disc"><strong>⚠ Educational Use Only.</strong> Content is for informational purposes only and does not constitute financial advice. HipMarvin FX · Analyst: Elijah Agom · Published 17 May 2026.</p>
+    <div class="footer-brand">HipMarvin FX</div>
+  </footer>
 
-WEEK DETAILS:
-- Week commencing: [INSERT e.g. Monday 18 May 2026]
-- Primary theme: [INSERT e.g. Fed Chair Warsh era begins + FOMC minutes]
-- Macro backdrop: [INSERT e.g. Hot CPI, Iran war, USD strong at 4-month highs]
-- DXY level: [INSERT live level e.g. 98.49]
-- USD bias: [STRONG | WEAK | NEUTRAL]
-- Gold price: [INSERT live price]
-- BTC price: [INSERT live price]
-- Oil trend: [RISING | FALLING | STABLE]
-
-REQUIRED SECTIONS:
-
-1. MARKET STRIP
-   Live prices: Gold, BTC, Oil trend, US Rates, DXY
-
-2. RED FOLDER EVENTS TABLE
-   For each event: Day + time (WAT first, then New York) · Event name · Pairs impacted · Impact rating (LOW/MODERATE/HIGH/MAXIMUM)
-
-3. BINARY WEEKLY SCENARIOS
-   COOL (USD weakens): What happens across all pairs + assets if macro surprises dovish
-   HOT (USD extends): What happens if macro confirms hawkish trajectory
-
-4. PAIR OUTLOOK CARDS — One card for each:
-   EUR/USD · GBP/USD · USD/JPY · USD/CHF · AUD/USD · USD/CAD · NZD/USD · XAU/USD · BTC/USD
-   
-   Each card contains:
-   - Weekly bias (BULLISH/BEARISH/NEUTRAL)
-   - Key trigger (which event moves this pair most this week)
-   - Weekly ceiling (realistic upside)
-   - Weekly floor (realistic downside)
-   - Weekly outlook (2–3 sentences: cool scenario, hot scenario, practical note)
-
-5. GEOPOLITICAL OVERLAY
-   Any secondary macro/geopolitical drivers active all week (war, central bank, political events)
-
-6. WEEKLY VERDICT
-   - Momentum score /10 (bullish USD bias)
-   - Bull case (scenario + specific targets)
-   - Bear case (scenario + specific targets)
-   - Invalidation level (the price that kills the thesis)
-   - Beginner takeaway (one paragraph, plain English)
-
-STYLE RULES:
-- Tone: Elijah Agom — authoritative, bold, street-smart macro, no jargon without explanation
-- All times: Lagos (WAT) first, then New York
-- Format: Bloomberg Terminal dark — clean, data-dense
-- Brand voice: HipMarvin FX (bold, direct) × HipMarvin FX Fundamentals (institutional depth)
-- Author credit: Elijah Agom on every output
-- End with: "Week ahead debrief drops every Sunday. Stay locked in. 🔐"
-- Disclaimer: Educational purposes only. Not financial advice.</div>
-      <button class="copy-btn" onclick="copyPrompt()">COPY PROMPT</button>
-    </div>
-  </div>
-
-</div>
-
-<div style="text-align:center;padding:12px 20px;background:#12101C;border-top:1px solid #7A55C833;font-family:'Space Mono',monospace;font-size:10px;color:#7A55C8;letter-spacing:0.06em;">🔐 PROMPT TEMPLATES &amp; FULL ANALYST TOOLKIT — HIPMARVIN FX FUNDAMENTALS SUBSCRIBERS ONLY · Upgrade at hipmarvin.com</div>
-<div class="footer">
-  <div class="footer-brand">HIPMARVIN FX FUNDAMENTALS · ANALYST: ELIJAH AGOM · W/C 18 MAY 2026</div>
-  <div class="footer-disc">Educational purposes only. Not financial advice. © 2026</div>
 </div>
 
 <script>
 function showTab(id, btn) {
-  document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-  document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.tab-pane').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
   document.getElementById('tab-' + id).classList.add('active');
   btn.classList.add('active');
 }
-function copyPrompt() {
-  const text = document.getElementById('promptText').innerText;
-  navigator.clipboard.writeText(text).then(() => {
-    const btn = document.querySelector('.copy-btn');
-    btn.textContent = 'COPIED ✓';
-    setTimeout(() => btn.textContent = 'COPY PROMPT', 2000);
-  });
+const cursor = document.getElementById('cursor');
+const ring   = document.getElementById('cursorRing');
+let mx = 0, my = 0, rx = 0, ry = 0;
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  cursor.style.left = mx - 4 + 'px'; cursor.style.top = my - 4 + 'px';
+});
+function animRing() {
+  rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
+  ring.style.left = rx - 16 + 'px'; ring.style.top = ry - 16 + 'px';
+  requestAnimationFrame(animRing);
 }
+animRing();
+document.querySelectorAll('.macro-card').forEach(c => {
+  c.addEventListener('mouseenter', () => { cursor.style.transform = 'scale(2)'; ring.style.transform = 'scale(1.5)'; });
+  c.addEventListener('mouseleave', () => { cursor.style.transform = 'scale(1)'; ring.style.transform = 'scale(1)'; });
+});
 </script>
 </body>
 </html>
